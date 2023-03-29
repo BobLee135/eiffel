@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "type": "EiffelIssueVerifiedEvent",
+    "version": "4.0.0",
+    "time": 1234567890,
+    "id": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee0"
+  },
+  "data": {},
+  "links": [
+    {
+      "type": "VERIFICATION_BASIS",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee1"
+    },
+    {
+      "type": "CAUSE",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee2"
+    },
+    {
+      "type": "IUT",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee3"
+    },
+    {
+      "type": "ENVIRONMENT",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee4"
+    },
+    {
+      "type": "SUCCESSFUL_ISSUE",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee5"
+    },
+    {
+      "type": "FAILED_ISSUE",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee6"
+    },
+    {
+      "type": "INCONCLUSIVE_ISSUE",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee7"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "type": "EiffelEnvironmentDefinedEvent",
+    "version": "3.0.0",
+    "time": 1234567890,
+    "id": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee0",
+    "source": {
+      "host": "envmanager.internal.myorg.org"
+    }
+  },
+  "data": {
+    "name": "John's Host Environment",
+    "version": "2.10.3",
+    "host": {
+      "name": "localhost",
+      "user": "root"
+    }
+  },
+  "links": [
+    {
+      "type": "PREVIOUS_VERSION",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee1"
+    }
+  ]
+}

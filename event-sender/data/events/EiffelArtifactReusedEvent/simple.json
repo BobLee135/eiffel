@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "type": "EiffelArtifactReusedEvent",
+    "version": "3.0.0",
+    "time": 1234567890,
+    "id": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee0",
+    "source": {
+      "domainId": "example.domain",
+      "serializer": "pkg:maven/com.mycompany.tools/eiffel-serializer@1.0.3"
+    },
+    "tags": [
+      "fast-track",
+      "customer-a"
+    ]
+  },
+  "data": {},
+  "links": [
+    {
+      "type": "CONTEXT",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee1"
+    },
+    {
+      "type": "REUSED_ARTIFACT",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee2"
+    },
+    {
+      "type": "COMPOSITION",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee3"
+    }
+  ]
+}

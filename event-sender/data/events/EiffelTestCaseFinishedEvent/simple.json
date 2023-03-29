@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "type": "EiffelTestCaseFinishedEvent",
+    "version": "3.1.0",
+    "time": 1234567890,
+    "id": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee0"
+  },
+  "data": {
+    "outcome": {
+      "verdict": "PASSED",
+      "conclusion": "SUCCESSFUL",
+      "description": "Accidentally started a fire in the lab during execution.",
+      "metrics": [
+        {
+          "name": "myMetric",
+          "value": 5
+        },
+        {
+          "name": "throughput",
+          "value": 8.325
+        },
+        {
+          "name": "somethingElse",
+          "value": "hello"
+        }
+      ]
+    },
+    "persistentLogs": [
+      {
+        "name": "firstLog (HTML)",
+        "mediaType": "text/html",
+        "uri": "http://myHost.com/firstLog.html"
+      },
+      {
+        "name": "firstLog (plain text)",
+        "mediaType": "text/plain",
+        "tags": [
+          "plain"
+        ],
+        "uri": "http://myHost.com/firstLog.log"
+      },
+      {
+        "name": "otherLog",
+        "uri": "isbn:0-486-27557-4"
+      }
+    ]
+  },
+  "links": [
+    {
+      "type": "TEST_CASE_EXECUTION",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee1"
+    }
+  ]
+}

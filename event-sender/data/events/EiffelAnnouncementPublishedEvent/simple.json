@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "type": "EiffelAnnouncementPublishedEvent",
+    "version": "3.0.0",
+    "time": 1234567890,
+    "id": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee0"
+  },
+  "data": {
+    "heading": "Serious incident",
+    "body": "The third floor of the office is being flooded by out-of-control cookies.",
+    "uri": "http://cookie-report.com",
+    "severity": "CRITICAL"
+  },
+  "links": [
+    {
+      "type": "MODIFIED_ANNOUNCEMENT",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee1"
+    },
+    {
+      "type": "FLOW_CONTEXT",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee2"
+    }
+  ]
+}

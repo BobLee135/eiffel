@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "id": "e1e93f13-7c3c-4f17-9753-ebf0c86ff1c2",
+    "type": "EiffelActivityTriggeredEvent",
+    "version": "3.0.0",
+    "time": 1234567890
+  },
+  "data": {
+    "name": "Component X Build",
+    "categories": [
+      "Component Build"
+    ],
+    "triggers": [
+      {
+        "type": "MANUAL",
+        "description": "Triggered by EiffelArtifactPublishedEvent"
+      }
+    ],
+    "executionType": "AUTOMATED"
+  },
+  "links": [
+    {
+      "type": "CAUSE",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee1"
+    }
+  ]
+}

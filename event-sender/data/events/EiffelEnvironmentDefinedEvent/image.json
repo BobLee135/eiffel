@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "type": "EiffelEnvironmentDefinedEvent",
+    "version": "3.0.0",
+    "time": 1234567890,
+    "id": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee0"
+  },
+  "data": {
+    "name": "John's Docker Image",
+    "version": "2.10.3",
+    "image": "johndoe/docker-whale:2.10.3"
+  },
+  "links": [
+    {
+      "type": "PREVIOUS_VERSION",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee1"
+    }
+  ]
+}

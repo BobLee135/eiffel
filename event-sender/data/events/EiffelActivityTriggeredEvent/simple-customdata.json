@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "id": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee0",
+    "type": "EiffelActivityTriggeredEvent",
+    "version": "3.0.0",
+    "time": 1234567890,
+    "source": {
+      "domainId": "test-domainId"
+    }
+  },
+  "data": {
+    "name": "Component X Build",
+    "categories": [
+      "Component Build"
+    ],
+    "triggers": [
+      {
+        "type": "MANUAL",
+        "description": "Triggered by EiffelArtifactPublishedEvent"
+      }
+    ],
+    "executionType": "AUTOMATED",
+    "customData": [
+      {
+        "key": "key1",
+        "value": "value1"
+      },
+      {
+        "key": "key2",
+        "value": [
+          1,
+          2,
+          3
+        ]
+      }
+    ]
+  },
+  "links": [
+    {
+      "type": "CAUSE",
+      "target": "aaaaaaaa-bbbb-5ccc-8ddd-eeeeeeeeeee1"
+    }
+  ]
+}
