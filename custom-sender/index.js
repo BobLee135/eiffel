@@ -7,12 +7,15 @@ const PORT = 3000
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+var counter = 0;
+
 app.post("/webhook", (req,res) => {
   var body = req.body
   var actionType = body.action.type
   var data = body.action.data
   var card = data.card
-
+  sendEventToSimpleEventSender();
+  counter++;
   switch (actionType) {
       // CARD ACTIONS
       case "createCard":
@@ -54,7 +57,7 @@ app.listen(PORT, () => {
 
 
 
-sendEventToSimpleEventSender();
+
 
 async function sendEventToSimpleEventSender() {
   const parameterObj = {
@@ -64,7 +67,7 @@ async function sendEventToSimpleEventSender() {
   
   let auth_token = "";
   
-  await Axios.post("http://localhost:9000/login", {
+  await Axios.post("http://13.49.183.142:9000/login", {
     name: "Albin",
     password: "password123"
   }).then(response => {
@@ -82,7 +85,7 @@ async function sendEventToSimpleEventSender() {
       type: "EiffelArtifactCreatedEvent",
       version: "3.0.0",
       time: 1234567890,
-      id: "1d967e40-5e71-4c0b-9523-8bf6eb60fa66",
+      id: "1d967e40-5e71-4c0b-9523-8bf6eb60fa6" + counter,
       source: {
         serializer: "pkg:maven/com.mycompany.tools/eiffel-serializer@1.0.3"
       },
@@ -111,7 +114,7 @@ async function sendEventToSimpleEventSender() {
   
   // Posting the test event
   await Axios.post(
-    "http://localhost:9000/submitevent",
+    "http://13.49.183.142:9000/submitevent",
     { eiffelDataObj, parameterObj },
     config
   ).then(function(response) {
@@ -121,7 +124,7 @@ async function sendEventToSimpleEventSender() {
   });
 
   await Axios.post(
-    "http://localhost:9000/submitevent",
+    "http://13.49.183.142:9000/submitevent",
     { eiffelDataObj, parameterObj },
     config
   ).then(function(response) {
