@@ -73,7 +73,7 @@ async function sendEventToSimpleEventSender() {
   }).then(response => {
     auth_token = response.headers["auth-token"];
   }).catch(error => {
-    console.log("could not do stuff because of : " + error);
+    console.log("could authenticate: " + error);
   });
   
   let config = {
@@ -84,7 +84,7 @@ async function sendEventToSimpleEventSender() {
     meta: {
       type: "EiffelArtifactCreatedEvent",
       version: "3.0.0",
-      time: 1234567890,
+      time: new Date().getTime(), // Current time in milliseconds
       id: "1d967e40-5e71-4c0b-9523-8bf6eb60fa6" + counter,
       source: {
         serializer: "pkg:maven/com.mycompany.tools/eiffel-serializer@1.0.3"
@@ -120,7 +120,7 @@ async function sendEventToSimpleEventSender() {
   ).then(function(response) {
     console.log(response + "-message sent");
   }).catch(function(error) {
-    console.log("fuck something went wrong : " + error);
+    console.log("something went wrong : " + error);
   });
 
   await Axios.post(
@@ -130,7 +130,7 @@ async function sendEventToSimpleEventSender() {
   ).then(function(response) {
     console.log(response + "-message sent");
   }).catch(function(error) {
-    console.log("fuck something went wrong : " + error);
+    console.log("something went wrong : " + error);
   });
 }
 
