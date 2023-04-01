@@ -19,7 +19,8 @@ public class Rabbit {
         MongoDatabase database = mongoClient.getDatabase("meteor");
 
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setHost("13.49.183.142");
+        factory.setPort(5672);
         factory.setUsername("rabbitmquser");
         factory.setPassword("rabbitmqpassword");
 
