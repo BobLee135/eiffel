@@ -487,7 +487,7 @@ export const getAggregatedGraph = new ValidatedMethod({
                 }
             }
 
-            query["time.started"] = {$gte: parseInt(from), $lte: parseInt(to)};
+            //query["time.started"] = {$gte: parseInt(from), $lte: parseInt(to)};
             query["events"] = {$elemMatch: eventFilter};
 
             // Fetch the data.
