@@ -1,4 +1,58 @@
 const Axios = require("axios");
+const express = require('express');
+const bodyParser = require("body-parser");
+const path = require('path');
+const app = express();
+const PORT = 3000
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.post("/webhook", (req,res) => {
+  var body = req.body
+  var actionType = body.action.type
+  var data = body.action.data
+  var card = data.card
+
+  switch (actionType) {
+      // CARD ACTIONS
+      case "createCard":
+          console.log("Created " + card.name + " that has id " + card.idShort);
+          break;
+      case "updateCard":
+          console.log("Updated " + card.name + " that has id " + card.idShort);
+          break;
+      case "deleteCard":
+          console.log("Deleted " + card.name + " that has id " + card.idShort);
+          break;
+      case "addChecklistToCard":
+          console.log("Added checklist to " + card.name + " that has id " + card.idShort);
+          break;
+      case "removeChecklistFromCard":
+          console.log("Removed checklist from " + card.name + " that has id " + card.idShort);
+          break;
+      case "addMemberToCard":
+          console.log("Added a member to " + card.name + " that has id " + card.idShort);
+          break;
+      case "removeMemberFromCard":
+          console.log("Removed a member from " + card.name + " that has id " + card.idShort);
+          break;
+  }
+  res.status(200).end()
+})
+
+app.head("/webhook", (req,res) => {
+  res.status(200).end()
+})
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname+'/src/html/index.html'))
+})
+
+app.listen(PORT, () => {
+  console.log("Server listening on port " + PORT);
+})
+
+
 
 sendEventToSimpleEventSender();
 
