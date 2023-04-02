@@ -14,7 +14,7 @@ app.post("/webhook", (req,res) => {
   var actionType = body.action.type
   var data = body.action.data
   var card = data.card
-  sendEventToSimpleEventSender();
+  //sendEventToSimpleEventSender();
   counter++;
   switch (actionType) {
       // CARD ACTIONS
