@@ -99,7 +99,7 @@ async function sendEventToSimpleEventSender() {
   
   let auth_token = "";
   
-  await Axios.post("http://13.49.183.142:9000/login", {
+  await Axios.post("http://13.50.194.101:9000/login", {
     name: "Albin",
     password: "password123"
   }).then(response => {
@@ -146,7 +146,7 @@ async function sendEventToSimpleEventSender() {
   
   // Posting the test event
   await Axios.post(
-    "http://13.49.183.142:9000/submitevent",
+    "http://13.50.194.101:9000/submitevent",
     { eiffelDataObj, parameterObj },
     config
   ).then(function(response) {
@@ -156,7 +156,7 @@ async function sendEventToSimpleEventSender() {
   });
 
   await Axios.post(
-    "http://13.49.183.142:9000/submitevent",
+    "http://13.50.194.101:9000/submitevent",
     { eiffelDataObj, parameterObj },
     config
   ).then(function(response) {
