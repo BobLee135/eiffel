@@ -56,8 +56,8 @@ app.listen(PORT, () => {
   console.log("Server listening on port " + PORT);
 })
 
-function artifactCreatedEvent() {
-  var UUID = generateUuidV4();
+async function artifactCreatedEvent() {
+  var UUID = generateV4UUID();
   let eiffelDataObj = {
     meta: {
       type: "EiffelArtifactCreatedEvent",
@@ -72,22 +72,45 @@ function artifactCreatedEvent() {
     },
     links: []
   };
+
+  const parameterObj = {
+    sendToMessageBus: true,
+    edition: "agen-1"
+  };
+
+  await Axios.post(
+    "http://13.50.194.101:9000/submitevent",
+    { eiffelDataObj, parameterObj },
+    config
+  ).then(function(response) {
+    console.log(response + "-message sent");
+  }).catch(function(error) {
+    console.log("something went wrong : " + error);
+  });
 }
 
-function generateUuidV4() {
-  // Generate 16 bytes of random data
-  const randomBytes = new Uint8Array(16);
-  window.crypto.getRandomValues(randomBytes);
+function generateV4UUID() {
+  const hexDigits = '0123456789abcdef';
+  let uuid = '';
 
-  // Set the version (4) and variant bits according to the UUID format
-  randomBytes[6] = (randomBytes[6] & 0x0f) | 0x40;
-  randomBytes[8] = (randomBytes[8] & 0x3f) | 0x80;
+  for (let i = 0; i < 36; i++) {
+    if (i === 8 || i === 13 || i === 18 || i === 23) {
+      uuid += '-';
+    } else if (i === 14) {
+      // Set the version to 4 (time-based UUID)
+      uuid += '4';
+    } else if (i === 19) {
+      // Set the variant to the 8, 9, A, or B (clock-seq-and-reserved)
+      const randomHexDigit = hexDigits[Math.floor(Math.random() * 4) + 8];
+      uuid += randomHexDigit;
+    } else {
+      // Generate a random hex digit
+      const randomHexDigit = hexDigits[Math.floor(Math.random() * 16)];
+      uuid += randomHexDigit;
+    }
+  }
 
-  // Format the UUID string with hyphens
-  const hexOctets = Array.from(randomBytes, byte => byte.toString(16).padStart(2, '0'));
-  const uuidStr = `${hexOctets[0]}${hexOctets[1]}${hexOctets[2]}${hexOctets[3]}-${hexOctets[4]}${hexOctets[5]}-${hexOctets[6]}${hexOctets[7]}-${hexOctets[8]}${hexOctets[9]}-${hexOctets[10]}${hexOctets[11]}${hexOctets[12]}${hexOctets[13]}${hexOctets[14]}${hexOctets[15]}`;
-
-  return uuidStr;
+  return uuid;
 }
 
 
