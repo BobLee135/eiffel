@@ -20,6 +20,7 @@ app.post("/webhook", (req,res) => {
       // CARD ACTIONS
       case "createCard":
           console.log("Created " + card.name + " that has id " + card.idShort);
+          artifactCreatedEvent();
           break;
       case "updateCard":
           console.log("Updated " + card.name + " that has id " + card.idShort);
@@ -55,8 +56,39 @@ app.listen(PORT, () => {
   console.log("Server listening on port " + PORT);
 })
 
+function artifactCreatedEvent() {
+  var UUID = generateUuidV4();
+  let eiffelDataObj = {
+    meta: {
+      type: "EiffelArtifactCreatedEvent",
+      version: "3.0.0",
+      time: new Date().getTime(), // Current time in milliseconds
+      id: UUID,
+      tags: ["Trello", "card-created"]
+    },
+    data: {
+      identity: "pkg:trello/card@1.0.0",
+      name: "Trello card created"
+    },
+    links: []
+  };
+}
 
+function generateUuidV4() {
+  // Generate 16 bytes of random data
+  const randomBytes = new Uint8Array(16);
+  window.crypto.getRandomValues(randomBytes);
 
+  // Set the version (4) and variant bits according to the UUID format
+  randomBytes[6] = (randomBytes[6] & 0x0f) | 0x40;
+  randomBytes[8] = (randomBytes[8] & 0x3f) | 0x80;
+
+  // Format the UUID string with hyphens
+  const hexOctets = Array.from(randomBytes, byte => byte.toString(16).padStart(2, '0'));
+  const uuidStr = `${hexOctets[0]}${hexOctets[1]}${hexOctets[2]}${hexOctets[3]}-${hexOctets[4]}${hexOctets[5]}-${hexOctets[6]}${hexOctets[7]}-${hexOctets[8]}${hexOctets[9]}-${hexOctets[10]}${hexOctets[11]}${hexOctets[12]}${hexOctets[13]}${hexOctets[14]}${hexOctets[15]}`;
+
+  return uuidStr;
+}
 
 
 async function sendEventToSimpleEventSender() {
