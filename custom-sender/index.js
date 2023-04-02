@@ -78,6 +78,21 @@ async function artifactCreatedEvent() {
     edition: "agen-1"
   };
 
+  let auth_token = "";
+  
+  await Axios.post("http://13.50.194.101:9000/login", {
+    name: "Albin",
+    password: "password123"
+  }).then(response => {
+    auth_token = response.headers["auth-token"];
+  }).catch(error => {
+    console.log("could authenticate: " + error);
+  });
+  
+  let config = {
+    headers: { "auth-token": auth_token }
+  };
+
   await Axios.post(
     "http://13.50.194.101:9000/submitevent",
     { eiffelDataObj, parameterObj },
