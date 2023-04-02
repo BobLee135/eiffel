@@ -1,8 +1,16 @@
-local-visual:
-	cd ./local-visual/visualization && meteor run
+.PHONY: easy-event-rabbit
 easy-event-rabbit:
 	cd ./easy-event-rabbit && docker-compose up
+
+.PHONY: custom-sender
 custom-sender:
 	cd ./custom-sender && node .
-bridge:
-	cd ./bridge/Rabbit && javac -cp ".:./lib/*" ./src/Rabbit/Rabbit.java && java -cp ".:./lib/*" ./Rabbit/src/Rabbit/Rabbit.java
+
+# Run these commands in seperate terminals
+# Prerequisites for local-bridge:
+#	'local-visual' is already running
+#	'easy-event-rabbit' is already running
+local-visual:
+	cd ./local-visual/visualization && meteor run
+local-bridge:
+	cd ./local-bridge/Rabbit && javac -cp ".:./lib/*" ./src/Rabbit/Rabbit.java && java -cp ".:./lib/*" ./src/Rabbit/Rabbit.java
