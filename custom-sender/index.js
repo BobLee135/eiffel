@@ -7,15 +7,33 @@ const PORT = 3000
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var counter = 0;
 
+//LOGIN
+let auth_token = "";
+await login();
+let config = {
+  headers: { "auth-token": auth_token }
+};
+
+async function login() {
+  await Axios.post("http://13.50.194.101:9000/login", {
+    name: "Albin",
+    password: "password123"
+  }).then(response => {
+    auth_token = response.headers["auth-token"];
+  }).catch(error => {
+    console.log("could authenticate: " + error);
+  });
+}
+
+
+// Trello event handling
 app.post("/webhook", (req,res) => {
   var body = req.body
   var actionType = body.action.type
   var data = body.action.data
   var card = data.card
-  //sendEventToSimpleEventSender();
-  counter++;
+
   switch (actionType) {
       // CARD ACTIONS
       case "createCard":
@@ -44,18 +62,21 @@ app.post("/webhook", (req,res) => {
   res.status(200).end()
 })
 
+// Required routes
 app.head("/webhook", (req,res) => {
   res.status(200).end()
 })
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname+'/src/html/index.html'))
 })
 
+// Start server
 app.listen(PORT, () => {
   console.log("Server listening on port " + PORT);
 })
 
+
+// Eiffel events
 async function artifactCreatedEvent() {
   var UUID = generateV4UUID();
   let eiffelDataObj = {
@@ -78,21 +99,6 @@ async function artifactCreatedEvent() {
     edition: "agen-1"
   };
 
-  let auth_token = "";
-  
-  await Axios.post("http://13.50.194.101:9000/login", {
-    name: "Albin",
-    password: "password123"
-  }).then(response => {
-    auth_token = response.headers["auth-token"];
-  }).catch(error => {
-    console.log("could authenticate: " + error);
-  });
-  
-  let config = {
-    headers: { "auth-token": auth_token }
-  };
-
   await Axios.post(
     "http://13.50.194.101:9000/submitevent",
     { eiffelDataObj, parameterObj },
@@ -104,6 +110,8 @@ async function artifactCreatedEvent() {
   });
 }
 
+
+// Generate V4UUID
 function generateV4UUID() {
   const hexDigits = '0123456789abcdef';
   let uuid = '';
@@ -128,7 +136,7 @@ function generateV4UUID() {
   return uuid;
 }
 
-
+/*
 async function sendEventToSimpleEventSender() {
   const parameterObj = {
     sendToMessageBus: true,
@@ -203,4 +211,4 @@ async function sendEventToSimpleEventSender() {
     console.log("something went wrong : " + error);
   });
 }
-
+*/
