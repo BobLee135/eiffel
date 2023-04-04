@@ -32,6 +32,7 @@ exports.initRabbitMQConsumer = function () {
     let url = process.env.RABBITMQ_URL;
 
     return new Promise((resolve, reject) => {
+        /*
          amqp.connect('amqp://' + user + ':' + password + '@' + url).then((connection) => {
             connection.createChannel().then((channel) => {
                 channel.assertQueue(queue, {
@@ -64,5 +65,7 @@ exports.initRabbitMQConsumer = function () {
           .catch((err) => {
                 reject(new exception.rabbitMQException(err));
           });
+          */
+         resolve(true);
     })
 };
