@@ -7,6 +7,8 @@ const PORT = 3000
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+var EiffelArtifactCreatedEvent = require('./eventTypes/EiffelArtifactCreatedEvent');
+
 
 //LOGIN
 let auth_token = "";
@@ -26,19 +28,20 @@ async function login() {
   });
 }
 
-
 // Trello event handling
-app.post("/webhook", (req,res) => {
+app.post("/webhook", async (req,res) => {
   var body = req.body
   var actionType = body.action.type
   var data = body.action.data
   var card = data.card
 
+  var eventData;
+  var uuid = generateV4UUID();
   switch (actionType) {
       // CARD ACTIONS
       case "createCard":
           console.log("Created " + card.name + " that has id " + card.idShort);
-          artifactCreatedEvent();
+          eventData = EiffelArtifactCreatedEvent(uuid);
           break;
       case "updateCard":
           console.log("Updated " + card.name + " that has id " + card.idShort);
@@ -59,6 +62,23 @@ app.post("/webhook", (req,res) => {
           console.log("Removed a member from " + card.name + " that has id " + card.idShort);
           break;
   }
+
+  // Post event
+  const parameterObj = {
+    sendToMessageBus: true,
+    edition: "agen-1"
+  };
+  
+  await Axios.post(
+    "http://13.50.194.101:9000/submitevent",
+    { eiffelDataObj, parameterObj },
+    config
+  ).then(function(response) {
+    console.log(response + "-message sent");
+  }).catch(function(error) {
+    console.log("something went wrong : " + error);
+  });
+
   res.status(200).end()
 })
 
@@ -74,42 +94,6 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log("Server listening on port " + PORT);
 })
-
-
-// Eiffel events
-async function artifactCreatedEvent() {
-  var UUID = generateV4UUID();
-  let eiffelDataObj = {
-    meta: {
-      type: "EiffelArtifactCreatedEvent",
-      version: "3.0.0",
-      time: new Date().getTime(), // Current time in milliseconds
-      id: UUID,
-      tags: ["Trello", "card-created"]
-    },
-    data: {
-      identity: "pkg:trello/card@1.0.0",
-      name: "Trello card created"
-    },
-    links: []
-  };
-
-  const parameterObj = {
-    sendToMessageBus: true,
-    edition: "agen-1"
-  };
-
-  await Axios.post(
-    "http://13.50.194.101:9000/submitevent",
-    { eiffelDataObj, parameterObj },
-    config
-  ).then(function(response) {
-    console.log(response + "-message sent");
-  }).catch(function(error) {
-    console.log("something went wrong : " + error);
-  });
-}
-
 
 // Generate V4UUID
 function generateV4UUID() {
