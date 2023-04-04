@@ -1,4 +1,4 @@
-async function artifactCreatedEvent(uuid) {
+function artifactCreatedEvent(uuid) {
     let eiffelDataObj = {
         meta: {
             type: "EiffelArtifactCreatedEvent",
