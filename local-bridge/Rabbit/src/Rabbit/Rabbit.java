@@ -6,7 +6,6 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.BsonDocument;
 import org.bson.Document;
 
-
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -19,7 +18,7 @@ public class Rabbit {
         MongoDatabase database = mongoClient.getDatabase("meteor");
 
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("16.170.107.18");
+        factory.setHost("localhost");
         factory.setPort(5672);
         factory.setUsername("rabbitmquser");
         factory.setPassword("rabbitmqpassword");
@@ -32,7 +31,8 @@ public class Rabbit {
 
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
-            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
+                    byte[] body) throws IOException {
                 String message = new String(body);
                 BsonDocument bsonDocument = BsonDocument.parse(message);
                 Document document = Document.parse(bsonDocument.toJson());

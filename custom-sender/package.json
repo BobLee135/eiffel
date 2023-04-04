@@ -1,6 +1,7 @@
 {
   "name": "super-easy-event-sender",
   "version": "1.0.0",
+  "type": "module",
   "description": "yes this is easy",
   "main": "index.js",
   "scripts": {
