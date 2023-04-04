@@ -35,13 +35,13 @@ app.post("/webhook", async (req,res) => {
   var data = body.action.data
   var card = data.card
 
-  var eventData;
+  var eventDataObj;
   var uuid = generateV4UUID();
   switch (actionType) {
       // CARD ACTIONS
       case "createCard":
           console.log("Created " + card.name + " that has id " + card.idShort);
-          eventData = EiffelArtifactCreatedEvent(uuid);
+          eventDataObj = EiffelArtifactCreatedEvent(uuid);
           break;
       case "updateCard":
           console.log("Updated " + card.name + " that has id " + card.idShort);
@@ -71,7 +71,7 @@ app.post("/webhook", async (req,res) => {
   
   await Axios.post(
     "http://16.170.107.18:9000/submitevent",
-    { eiffelDataObj, parameterObj },
+    { eventDataObj, parameterObj },
     config
   ).then(function(response) {
     console.log(response + "-message sent");
