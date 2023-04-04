@@ -73,9 +73,9 @@ app.post("/webhook", async (req,res) => {
   };
   
   console.log("auth-token " + auth_token);
-  console.log("eventDataObj " + eventDataObj.json());
-  console.log("parameterObj " + parameterObj.json());
-  console.log("config " + config.json());
+  console.log("eventDataObj " + JSON.stringify(eventDataObj));
+  console.log("parameterObj " + JSON.stringify(parameterObj));
+  console.log("config " + JSON.stringify(config));
 
   
   console.log("Sending event to SimpleEventSender : " + eventDataObj);
