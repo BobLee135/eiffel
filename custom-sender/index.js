@@ -41,7 +41,20 @@ app.post("/webhook", async (req,res) => {
       // CARD ACTIONS
       case "createCard":
           console.log("Created " + card.name + " that has id " + card.idShort);
-          eventDataObj = EiffelArtifactCreatedEvent(uuid);
+          eventDataObj = {
+            meta: {
+                type: "EiffelArtifactCreatedEvent",
+                version: "3.0.0",
+                time: new Date().getTime(), // Current time in milliseconds
+                id: uuid,
+                tags: ["Trello", "card-created"]
+            },
+            data: {
+                identity: "pkg:trello/card@1.0.0",
+                name: "Trello card created"
+            },
+            links: []
+        };
           break;
       case "updateCard":
           console.log("Updated " + card.name + " that has id " + card.idShort);
