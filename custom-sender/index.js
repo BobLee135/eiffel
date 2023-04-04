@@ -24,7 +24,7 @@ async function login() {
   }).then(response => {
     auth_token = response.headers["auth-token"];
   }).catch(error => {
-    console.log("could authenticate: " + error);
+    console.log("could not authenticate: " + error);
   });
 }
 
@@ -69,6 +69,8 @@ app.post("/webhook", async (req,res) => {
     edition: "agen-1"
   };
   
+  console.log("Sending event to SimpleEventSender : " + eventDataObj);
+
   await Axios.post(
     "http://16.170.107.18:9000/submitevent",
     { eventDataObj, parameterObj },
@@ -76,7 +78,7 @@ app.post("/webhook", async (req,res) => {
   ).then(function(response) {
     console.log(response + "-message sent");
   }).catch(function(error) {
-    console.log("something went wrong : " + error);
+    console.log("oops something went wrong : " + error);
   });
 
   res.status(200).end()
@@ -88,11 +90,6 @@ app.head("/webhook", (req,res) => {
 })
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname+'/src/html/index.html'))
-})
-
-// Start server
-app.listen(PORT, () => {
-  console.log("Server listening on port " + PORT);
 })
 
 // Generate V4UUID
@@ -119,6 +116,11 @@ function generateV4UUID() {
 
   return uuid;
 }
+
+// Start server
+app.listen(PORT, () => {
+  console.log("Server listening on port " + PORT);
+})
 
 /*
 async function sendEventToSimpleEventSender() {
