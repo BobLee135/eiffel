@@ -11,7 +11,7 @@ var EiffelArtifactCreatedEvent = require('./eventTypes/EiffelArtifactCreatedEven
 
 
 //LOGIN
-let auth_token = "";
+var auth_token = "";
 login();
 
 
