@@ -110,21 +110,6 @@ async function submitEvent(eiffelDataObj) {
       console.error('Error:', error.message);
     }
   });
-
-  await Axios.post(
-    `${EASY_EVENT_RABBIT_IP_ADDRESS}/submitevent`,
-    { eiffelDataObj, parameterObj },
-    config
-  ).then(function(response) {
-    console.log(response + "-message sent");
-  }).catch(function(error) {
-    if (error.response) {
-      console.error('Error status:', error.response.status);
-      console.error('Error details:', error.response.data);
-    } else {
-      console.error('Error:', error.message);
-    }
-  });
 }
 
 
