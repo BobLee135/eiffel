@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 //LOGIN
 let auth_token = "";
-await login();
+login();
 let config = {
   headers: { "auth-token": auth_token }
 };
