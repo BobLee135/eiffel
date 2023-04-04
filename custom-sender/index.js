@@ -16,7 +16,7 @@ let config = {
 };
 
 async function login() {
-  await Axios.post("http://13.50.194.101:9000/login", {
+  await Axios.post("http://16.170.107.18:9000/login", {
     name: "Albin",
     password: "password123"
   }).then(response => {
@@ -100,7 +100,7 @@ async function artifactCreatedEvent() {
   };
 
   await Axios.post(
-    "http://13.50.194.101:9000/submitevent",
+    "http://16.170.107.18:9000/submitevent",
     { eiffelDataObj, parameterObj },
     config
   ).then(function(response) {
