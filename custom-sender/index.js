@@ -11,8 +11,7 @@ var EiffelArtifactCreatedEvent = require('./eventTypes/EiffelArtifactCreatedEven
 
 
 //LOGIN
-var auth_token = "";
-login();
+
 
 
 
@@ -61,6 +60,9 @@ app.post("/webhook", async (req,res) => {
           console.log("Removed a member from " + card.name + " that has id " + card.idShort);
           break;
   }
+
+  var auth_token = "";
+  login();
 
   // Post event
   const parameterObj = {
