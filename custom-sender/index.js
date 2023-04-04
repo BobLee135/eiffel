@@ -13,9 +13,8 @@ var EiffelArtifactCreatedEvent = require('./eventTypes/EiffelArtifactCreatedEven
 //LOGIN
 let auth_token = "";
 login();
-let config = {
-  headers: { "auth-token": auth_token }
-};
+
+
 
 async function login() {
   await Axios.post("http://16.170.107.18:9000/login", {
@@ -68,6 +67,11 @@ app.post("/webhook", async (req,res) => {
     sendToMessageBus: true,
     edition: "agen-1"
   };
+
+  let config = {
+    headers: { "auth-token": auth_token }
+  };
+  
   
   await Axios.post(
     "http://16.170.107.18:9000/submitevent",
