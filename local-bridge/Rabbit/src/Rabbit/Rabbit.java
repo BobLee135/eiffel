@@ -13,12 +13,14 @@ import java.io.IOException;
 public class Rabbit {
     private final static String QUEUE_NAME = "event_queue";
 
+    private final static String EASY_EVENT_RABBIT_IP_ADDRESS = "16.170.107.18";
+
     public static void main(String[] argv) throws Exception {
         MongoClient mongoClient = MongoClients.create("mongodb://localhost:3001");
         MongoDatabase database = mongoClient.getDatabase("meteor");
 
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("16.170.107.18");
+        factory.setHost(EASY_EVENT_RABBIT_IP_ADDRESS);
         factory.setPort(5672);
         factory.setUsername("rabbitmquser");
         factory.setPassword("rabbitmqpassword");
