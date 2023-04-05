@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-const PORT = 3000;
+const PORT = 3005;
 const EASY_EVENT_RABBIT_IP_ADDRESS = "http://16.170.107.18:9000";
 
 
@@ -56,6 +56,11 @@ app.post("/webhook", async (req,res) => {
 // Required routes
 app.head("/webhook", (req,res) => {
   res.status(200).end()
+})
+app.get('/testEvent', (req, res) => {
+  const eventDataObj = eventCreator.artifactCreatedEvent();
+  submitEvent(eventDataObj);
+  console.log("Created new test event");
 })
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname+'/src/html/index.html'))
