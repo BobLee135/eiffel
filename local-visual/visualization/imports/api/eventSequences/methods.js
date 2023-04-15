@@ -543,24 +543,21 @@ export const getAggregatedGraph = new ValidatedMethod({
         //    console.log(JSON.stringify(events));
 
             // Maps individual event node id's to their aggregated node's id and vice versa
-            let groupToEvents = {};
             let eventToGroup = {};
 
             let nodes = [];
-            let groupedEvents = _.groupBy(events, (event) => event.name);
-            _.each(groupedEvents, (events, group) => {
+            _.each(events, (event) => {
                 let node = {
                     data: {
-                        label: group,
-                        id: group,
-                        events: events,
-                        length: _.size(events),
+                        label: event.name,
+                        id: event.id,
+                        event: event,
 
                         // This code is only run if there are events
                         // so it is assumed that the first element exists.
                         // The aggregated type is also the same type as every
                         // aggregated event.
-                        type: events[0].type
+                        type: event.type
                     }
                 };
 
@@ -643,26 +640,22 @@ export const getAggregatedGraph = new ValidatedMethod({
                     node.data.avgRunTime = totalRunTime / node.data.length;
                 }
                 nodes.push(node);
-                // Save the links from events -> group and group -> events to reconstruct group -> group later
-                groupToEvents[group] = _.reduce(events, (memo, event) => memo.concat(event.targets.concat(event.dangerousTargets)), []);
-                _.each(events, (event) => {
-                    eventToGroup[event.id] = group
-                });
+                eventToGroup[event.id] = event.id;
             });
 
             // Construct edges between groups
             let edgesMap = {};
 
             let edges = [];
-            _.each(groupToEvents, (events, group) => {
-                let tmp1 = _.map(events, (event) => eventToGroup[event]);
-                let toGroups = (_.uniq(tmp1));
-                _.each(toGroups, (toGroup) => {
-                    if (group !== undefined && toGroup !== undefined && edgesMap['' + group + toGroup] === undefined) {
-                        edgesMap['' + group + toGroup] = false;
+            _.each(events, (event) => {
+                let source = event.id;
+                _.each(event.targets.concat(event.dangerousTargets), (targetId) => {
+                    let target = eventToGroup[targetId];
+                    if (source !== undefined && target !== undefined) {
                         edges.push({
                             data: {
-                                source: group, target: toGroup
+                                source: source,
+                                target: target
                             }
                         })
                     }
