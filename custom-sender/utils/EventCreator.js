@@ -44,12 +44,17 @@ export class EventCreator {
             key: "trelloActivity",
             value: {
               message: "Trello card created",
-              id: 23
+              id: 24
             }
           }
         ]
       },
-      links: []
+      links: [
+        {
+          type: "CAUSE",
+          target: "e607afc5-4c60-446f-a740-fb1cd238370a"
+        }
+      ]
     };
     return eiffelDataObj;
   }
