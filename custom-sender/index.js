@@ -58,7 +58,7 @@ app.head("/webhook", (req,res) => {
   res.status(200).end()
 })
 app.get('/testEvent', (req, res) => {
-  const eventDataObj = eventCreator.artifactCreatedEvent();
+  const eventDataObj = eventCreator.customTrelloEvent();
   submitEvent(eventDataObj);
   console.log("Created new test event");
 })
