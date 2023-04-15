@@ -30,10 +30,6 @@ export const isTestCaseEvent = function (eventType) {
     return _.contains(eventTypes, eventType);
 };
 
-export const isCustomTrelloEvent = function (eventType) {
-    return eventType === 'CustomTrelloEvent';
-};
-
 export const isAnnouncementPublishedEvent = function (eventType) {
     return eventType === 'EiffelAnnouncementPublishedEvent';
 };

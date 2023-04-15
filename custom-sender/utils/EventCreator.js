@@ -30,7 +30,7 @@ export class EventCreator {
   customTrelloEvent(uuid) {
     let eiffelDataObj = {
       meta: {
-        type: "CustomTrelloEvent",
+        type: "EiffelArtifactCreatedEvent",
         version: "3.0.0",
         time: new Date().getTime(), // Current time in milliseconds
         id: this.idGen.generateV4UUID(),
@@ -38,7 +38,18 @@ export class EventCreator {
       },
       data: {
         identity: "pkg:trello/card@1.0.0",
-        name: "Trello card created"
+        name: "Trello card created",
+        properties: {
+          customData: [
+            {
+              key: "trelloActivity",
+              value: {
+                message: "Trello card created",
+                id: 23
+              }
+            }
+          ]
+        }
       },
       links: []
     };
