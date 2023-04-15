@@ -39,17 +39,15 @@ export class EventCreator {
       data: {
         identity: "pkg:trello/card@1.0.0",
         name: "Trello card created",
-        properties: {
-          customData: [
-            {
-              key: "trelloActivity",
-              value: {
-                message: "Trello card created",
-                id: 23
-              }
+        customData: [
+          {
+            key: "trelloActivity",
+            value: {
+              message: "Trello card created",
+              id: 23
             }
-          ]
-        }
+          }
+        ]
       },
       links: []
     };
