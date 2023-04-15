@@ -17,6 +17,7 @@ import {
     isCompositionDefinedEvent,
     isConfidenceLevelEvent,
     isConfigurationAppliedEvent,
+    isCustomTrelloEvent,
     isEnvironmentDefinedEvent,
     isFlowContextDefinedEvent,
     isIssueVerifiedEvent,
@@ -733,7 +734,10 @@ export const getEventChainGraph = new ValidatedMethod({
                     }
                 };
 
-                if (isActivityEvent(node.data.type)) {
+                if (isCustomTrelloEvent(node.data.type)) {
+                    
+
+                } else if (isActivityEvent(node.data.type)) {
                     // ActC do not have event.data.outcome, check that first.
                     if (event.data.outcome && event.data.outcome.conclusion === 'SUCCESSFUL') {
                         node.data.successful = 1;

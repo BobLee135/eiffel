@@ -26,4 +26,22 @@ export class EventCreator {
     };
     return eiffelDataObj;
   }
+
+  customTrelloEvent(uuid) {
+    let eiffelDataObj = {
+      meta: {
+        type: "CustomTrelloEvent",
+        version: "3.0.0",
+        time: new Date().getTime(), // Current time in milliseconds
+        id: this.idGen.generateV4UUID(),
+        tags: ["Trello", "card-created"]
+      },
+      data: {
+        identity: "pkg:trello/card@1.0.0",
+        name: "Trello card created"
+      },
+      links: []
+    };
+    return eiffelDataObj;
+  }
 } 
