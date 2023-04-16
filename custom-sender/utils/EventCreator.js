@@ -27,10 +27,25 @@ export class EventCreator {
     return eiffelDataObj;
   }
 
-  customTrelloEvent(uuid) {
+  customTrelloEvent(uuid, id, name, type) {
+    let eiffelType;
+    let message;
+    switch (type) {
+      case 'createCard':
+        eiffelType = "EiffelArtifactCreatedEvent";
+        message = "Trello card created";
+        break;
+      case 'updateCard':
+      case 'deleteCard':
+      default:
+        eiffelType = "EiffelArtifactCreatedEvent";
+        message = "Other Trello event";
+    }
+
+
     let eiffelDataObj = {
       meta: {
-        type: "EiffelArtifactCreatedEvent",
+        type: eiffelType,
         version: "3.0.0",
         time: new Date().getTime(), // Current time in milliseconds
         id: this.idGen.generateV4UUID(),
@@ -41,9 +56,12 @@ export class EventCreator {
         name: "Trello card created",
         customData: [
           {
-            trelloActivity: {
-              message: "Trello card created",
-              id: 24
+            key: "trelloActivity",
+            value: {
+              id: id,
+              name: name,
+              message: message,
+              type: type
             }
           }
         ]
@@ -56,5 +74,6 @@ export class EventCreator {
       ]
     };
     return eiffelDataObj;
+    
   }
 } 

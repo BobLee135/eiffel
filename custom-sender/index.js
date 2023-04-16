@@ -28,7 +28,7 @@ app.post("/webhook", async (req,res) => {
       // CARD ACTIONS
       case "createCard":
           console.log("Created " + card.name + " that has id " + card.idShort);
-          eventDataObj = eventCreator.customTrelloEvent();
+          eventDataObj = eventCreator.customTrelloEvent(card.idShort, card.name, card.actions[0].type);
           submitEvent(eventDataObj);
           break;
       case "updateCard":
