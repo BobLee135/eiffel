@@ -42,10 +42,6 @@ export class EventCreator {
         message = "Other Trello event";
     }
 
-    let linkDataObj = (linkEventId !== undefined) ? {
-      type: "CAUSE",
-      target: linkEventId
-    } : {};
 
     let eiffelDataObj = {
       meta: {
@@ -71,9 +67,12 @@ export class EventCreator {
           }
         ]
       },
-      links: [
-        linkDataObj
-      ]
+      links: linkEventId !== undefined ? [
+        {
+          type: "CAUSE",
+          target: linkEventId
+        }
+      ] : []
     };
     return eiffelDataObj;
     
