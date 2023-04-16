@@ -67,7 +67,7 @@ app.head("/webhook", (req,res) => {
 }
 */
 app.post('/testEvent', (req, res) => {
-  console.log("body : " + req.body);
+  console.log("body : " + JSON.stringify(req.body));
   const id = req.body.id;
   const name = req.body.name;                     
   const type = req.body.type;
