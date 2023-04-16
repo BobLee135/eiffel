@@ -27,6 +27,7 @@ import {
     isTestSuiteEvent,
 } from "../events/event-types";
 import {EiffelEvents} from "../eiffelevents/eiffelevents";
+import { type } from "jquery";
 
 function getEventSequenceVersion() {
     return '2.0';
@@ -661,11 +662,13 @@ export const getAggregatedGraph = new ValidatedMethod({
                 let source = event.id;
                 _.each(event.targets.concat(event.dangerousTargets), (targetId) => {
                     let target = eventToGroup[targetId];
-                    if (source !== undefined && target !== undefined) {
+                    let linkType = event.data.customData[0]["value"].linkType;
+                    if (source !== undefined && target !== undefined && type !== undefined) {
                         edges.push({
                             data: {
                                 source: source,
-                                target: target
+                                target: target,
+                                linkType: linkType,
                             }
                         })
                     }
@@ -1157,26 +1160,30 @@ export const getEventChainGraph = new ValidatedMethod({
                 let edgesMap = {};
                 _.each(event.targets, (target) => {
                     if (edgesMap[event.id + target] === undefined) {
-                        if (eventsMap[target] === undefined) {
-                            eventsMap[target] = 1;
-                            nodes.push({
-                                data: {
-                                    id: target,
-                                    extra: 'hidden'
-                                }
-                            })
-                        }
-                        edgesMap[event.id + target] = 1;
-                        edges.push(
-                            {
-                                data: {
-                                    label: 'safe',
-                                    source: event.id,
-                                    target: target
-                                }
-                            });
+                      if (eventsMap[target] === undefined) {
+                        eventsMap[target] = 1;
+                        nodes.push({
+                          data: {
+                            id: target,
+                            extra: 'hidden'
+                          }
+                        })
+                      }
+                      edgesMap[event.id + target] = 1;
+                  
+                      // Get the linkType from the event object
+                      const linkType = event.data.customData.find(customData => customData.key === "trelloActivity").value.linkType;
+                  
+                      edges.push(
+                        {
+                          data: {
+                            label: linkType || 'safe', // Set the label of the edge to the linkType value if it exists, otherwise use 'safe'
+                            source: event.id,
+                            target: target
+                          }
+                        });
                     }
-                });
+                  });
                 _.each(event.dangerousTargets, (target) => {
                     if (edgesMap[event.id + target] === undefined) {
                         edgesMap[event.id + target] = 1;

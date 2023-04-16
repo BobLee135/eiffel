@@ -63,6 +63,13 @@ function renderGraph(graph, container, level) {
                 }
             },
             {
+                selector: 'edge[label = "STRONG"]',
+                style: {
+                    'line-style': 'solid',
+                    'line-color': 'yellow',
+                }
+            },
+            {
                 selector: 'node[label ^= "createCard"]',
                 style: {
                     'shape': 'polygon',

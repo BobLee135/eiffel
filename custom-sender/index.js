@@ -65,6 +65,8 @@ app.post('/testEvent', (req, res) => {
   const linkType = req.body.linkType;
   const linkEventId = req.body.linkEventId;
 
+  console.log(linkEventId);
+
   const eventDataObj = eventCreator.customTrelloEvent(id, name, type, linkType, linkEventId);
   submitEvent(eventDataObj);
   console.log("Created new test event");
