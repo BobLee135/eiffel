@@ -549,9 +549,10 @@ export const getAggregatedGraph = new ValidatedMethod({
             _.each(events, (event) => {
                 
                 let label = event.name;
-                if ('customData' in  event.data && 'type' in event.data.customData[0]["value"]) {
+                if (event.data.customData !== undefined) {
                     var customData = event.data.customData[0]["value"]
                     label = customData.type;
+                    console.log("NEW LABEL MY MAN : " + label + JSON.stringify(customData));
                 }
                 
                 let node = {
@@ -647,6 +648,7 @@ export const getAggregatedGraph = new ValidatedMethod({
                     node.data.avgQueueTime = totalQueueTime / node.data.length;
                     node.data.avgRunTime = totalRunTime / node.data.length;
                 }
+                console.log("AAAAAAAAAAAAAAAAAA : " + JSON.stringify(node));
                 nodes.push(node);
                 eventToGroup[event.id] = event.id;
             });

@@ -58,7 +58,7 @@ app.head("/webhook", (req,res) => {
   res.status(200).end()
 })
 app.get('/testEvent', (req, res) => {
-  const eventDataObj = eventCreator.customTrelloEvent(23, "bug detected", "cardCreated");
+  const eventDataObj = eventCreator.customTrelloEvent(23, "bug detected", "createCard");
   submitEvent(eventDataObj);
   console.log("Created new test event");
 })
