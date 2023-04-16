@@ -66,7 +66,12 @@ export class EventCreator {
           }
         ]
       },
-      links: []
+      links: [
+        {
+          type: "CAUSE",
+          target: "ee7f16ab-702c-49c0-bfd6-3c5e55f1697c"
+        }
+      ]
     };
     return eiffelDataObj;
     

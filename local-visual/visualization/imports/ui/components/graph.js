@@ -66,16 +66,12 @@ function renderGraph(graph, container, level) {
                 selector: 'node[label ^= "createCard"]',
                 style: {
                     'shape': 'polygon',
-                    'shape-polygon-points': '-0.95 -0.77 -0.9 -0.82 -0.85 -0.87 -0.8 -0.91 -0.74 -0.94 -0.68 -0.97 -0.62 -0.98 -0.56 -1 -0.5 -1 -0.44 -1 -0.38 -0.98 -0.32 -0.97 -0.26 -0.94 -0.2 -0.91 -0.15 -0.87 -0.1 -0.82 -0.05 -0.77 0.05 -0.67 0.1 -0.62 0.15 -0.57 0.2 -0.53 0.26 -0.5 0.32 -0.47 0.38 -0.46 0.44 -0.44 0.5 -0.44 0.56 -0.44 0.62 -0.46 0.68 -0.47 0.74 -0.5 0.8 -0.53 0.85 -0.57 0.9 -0.62 0.95 -0.67 0.95 0.77 0.9 0.82 0.85 0.87 0.8 0.91 0.74 0.94 0.68 0.97 0.62 0.98 0.56 1 0.5 1 0.44 1 0.38 0.98 0.32 0.97 0.26 0.94 0.2 0.91 0.15 0.87 0.1 0.82 0.05 0.77 -0.05 0.67 -0.1 0.62 -0.15 0.57 -0.2 0.53 -0.26 0.5 -0.32 0.47 -0.38 0.46 -0.44 0.44 -0.5 0.44 -0.56 0.44 -0.62 0.46 -0.68 0.47 -0.74 0.5 -0.8 0.53 -0.85 0.57 -0.9 0.62 -0.95 0.67',
-                    'height': 600,
-                    'width': 100,
-                    'background-color': FAIL_COLOR,
-                    'background-position-x': '0px',
-                    'background-image': '/images/green.png',
+                    'height': 60,
+                    'width': 50,
+                    'background-image': '/images/elmo.jpg',
+                    'background-width': '100%',
                     'background-height': '100%',
-                    'background-width': function (ele) {
-                        return (ele.data("successful") * 100 / ele.data("length") ).toString() + '%';
-                    }
+                    'background-fit': 'cover'
                 }
             },
             {
