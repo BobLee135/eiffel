@@ -57,11 +57,20 @@ app.post("/webhook", async (req,res) => {
 app.head("/webhook", (req,res) => {
   res.status(200).end()
 })
-app.get('/testEvent', (req, res) => {
-  const eventDataObj = eventCreator.customTrelloEvent(23, "bug detected", "createCard");
+
+app.post('/testEvent', (req, res) => {
+  const id = req.body.id;
+  const name = req.body.name;                     
+  const type = req.body.type;
+  const linkType = req.body.linkType;
+  const linkEventId = req.body.linkEventId;
+
+  const eventDataObj = eventCreator.customTrelloEvent(id, name, type, linkType, linkEventId);
   submitEvent(eventDataObj);
   console.log("Created new test event");
+  res.status(200).send("Test event created successfully");
 })
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname+'/src/html/index.html'))
 })

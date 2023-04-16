@@ -27,7 +27,7 @@ export class EventCreator {
     return eiffelDataObj;
   }
 
-  customTrelloEvent(id, name, type) {
+  customTrelloEvent(id, name, type, linkType, linkEventId) {
     let eiffelType;
     let message;
     switch (type) {
@@ -61,7 +61,8 @@ export class EventCreator {
               id: id,
               name: name,
               message: message,
-              type: type
+              type: type,
+              linkType: linkType,
             }
           }
         ]
@@ -69,7 +70,7 @@ export class EventCreator {
       links: [
         {
           type: "CAUSE",
-          target: "ee7f16ab-702c-49c0-bfd6-3c5e55f1697c"
+          target: linkEventId
         }
       ]
     };
