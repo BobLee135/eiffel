@@ -41,8 +41,7 @@ export class EventCreator {
         name: "Trello card created",
         customData: [
           {
-            key: "trelloActivity",
-            value: {
+            trelloActivity: {
               message: "Trello card created",
               id: 24
             }

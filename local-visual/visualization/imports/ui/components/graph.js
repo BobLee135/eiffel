@@ -364,9 +364,12 @@ function renderGraph(graph, container, level) {
                     getTooltipButton(nodeData) +
                     '<table class="table table-bordered">' +
                     '<tr><td>Total no. of events</td><td class="td-right">' + nodeData.length + '</td></tr>' +
+                    '<tr><td>Custom data</td><td colspan="2" class="td-right">' + nodeData.customData[0]["trelloActivity"].message + '</td></tr>' +
                     '</table>';
 
         }
+        //[{"key":"trelloActivity","value":{"message":"Trello card created","id":24}}]
+
     }
 
     function getLevelThreeContent(nodeData) {

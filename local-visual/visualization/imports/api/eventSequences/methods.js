@@ -552,6 +552,7 @@ export const getAggregatedGraph = new ValidatedMethod({
                         label: event.name,
                         id: event.id,
                         event: event,
+                        customData: event.data.customData,
 
                         // This code is only run if there are events
                         // so it is assumed that the first element exists.
