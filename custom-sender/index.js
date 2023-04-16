@@ -57,8 +57,17 @@ app.post("/webhook", async (req,res) => {
 app.head("/webhook", (req,res) => {
   res.status(200).end()
 })
-
+/*
+{
+  "id": 23,
+  "name": "bug detected",
+  "type": "createCard",
+  "linkType": "STRONG",
+  "linkEventId": "ee7f16ab-702c-49c0-bfd6-3c5e55f1697c"
+}
+*/
 app.post('/testEvent', (req, res) => {
+  console.log("body : " + req.body);
   const id = req.body.id;
   const name = req.body.name;                     
   const type = req.body.type;
