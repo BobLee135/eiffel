@@ -77,7 +77,7 @@ function renderGraph(graph, container, level) {
                         return (ele.data("successful") * 100 / ele.data("length") ).toString() + '%';
                     }
                 }
-            }
+            },
             {
                 selector: 'node[label ^= "Act"]', // All nodes with ID Activity
                 style: {

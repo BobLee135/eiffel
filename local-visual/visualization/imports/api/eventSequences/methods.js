@@ -547,11 +547,13 @@ export const getAggregatedGraph = new ValidatedMethod({
 
             let nodes = [];
             _.each(events, (event) => {
+                
                 let label = event.name;
-                if (event.data.customData) {
+                if ('customData' in  event.data && 'type' in event.data.customData[0]["value"]) {
                     var customData = event.data.customData[0]["value"]
                     label = customData.type;
                 }
+                
                 let node = {
                     data: {
                         label: label,

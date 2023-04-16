@@ -9,7 +9,7 @@ export class EventCreator {
   }
 
 
-  artifactCreatedEvent(uuid) {
+  artifactCreatedEvent() {
     let eiffelDataObj = {
       meta: {
         type: "EiffelArtifactCreatedEvent",
@@ -27,7 +27,7 @@ export class EventCreator {
     return eiffelDataObj;
   }
 
-  customTrelloEvent(uuid, id, name, type) {
+  customTrelloEvent(id, name, type) {
     let eiffelType;
     let message;
     switch (type) {
@@ -66,12 +66,7 @@ export class EventCreator {
           }
         ]
       },
-      links: [
-        {
-          type: "CAUSE",
-          target: "e607afc5-4c60-446f-a740-fb1cd238370a"
-        }
-      ]
+      links: []
     };
     return eiffelDataObj;
     
