@@ -63,10 +63,17 @@ function renderGraph(graph, container, level) {
                 }
             },
             {
-                selector: 'edge[label = "STRONG"]',
+                selector: 'edge[linkType = "weak"]',
+                style: {
+                    'line-style': 'dashed',
+                    'line-color': 'yellow',
+                }
+            },
+            {
+                selector: 'edge[linkType = "strong"]',
                 style: {
                     'line-style': 'solid',
-                    'line-color': 'yellow',
+                    'line-color': 'green',
                 }
             },
             {

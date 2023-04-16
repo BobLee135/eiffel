@@ -66,7 +66,7 @@ app.head("/webhook", (req,res) => {
   "linkEventId": "ee7f16ab-702c-49c0-bfd6-3c5e55f1697c"
 }
 */
-app.post('/testEvent', (req, res) => {
+app.post('/testEvent', async (req, res) => {
   console.log("body : " + JSON.stringify(req.body));
   const id = req.body.id;
   const name = req.body.name;                     
