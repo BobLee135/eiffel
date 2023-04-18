@@ -82,10 +82,50 @@ function renderGraph(graph, container, level) {
                     'shape': 'polygon',
                     'height': 60,
                     'width': 50,
-                    'background-image': '/images/elmo.jpg',
+                    'background-image': '/images/trello_create.png',
                     'background-width': '100%',
                     'background-height': '100%',
-                    'background-fit': 'cover'
+                    'background-fit': 'cover',
+                    'border-opacity': 0,
+                }
+            },
+            {
+                selector: 'node[label ^= "deleteCard"]',
+                style: {
+                    'shape': 'polygon',
+                    'height': 60,
+                    'width': 50,
+                    'background-image': '/images/trello_delete.png',
+                    'background-width': '100%',
+                    'background-height': '100%',
+                    'background-fit': 'cover',
+                    'border-opacity': 0,
+                }
+            },
+            {
+                selector: 'node[label ^= "updateCard"]',
+                style: {
+                    'shape': 'polygon',
+                    'height': 60,
+                    'width': 50,
+                    'background-image': '/images/trello_modify.png',
+                    'background-width': '100%',
+                    'background-height': '100%',
+                    'background-fit': 'cover',
+                    'border-opacity': 0,
+                }
+            },
+            {
+                selector: 'node[label ^= "elmoCard"]',
+                style: {
+                    'shape': 'polygon',
+                    'height': 60,
+                    'width': 50,
+                    'background-image': '/images/elmo.png',
+                    'background-width': '100%',
+                    'background-height': '100%',
+                    'background-fit': 'cover',
+                    'border-opacity': 0,
                 }
             },
             {
