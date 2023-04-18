@@ -48,7 +48,7 @@ function renderGraph(graph, container, level) {
                 selector: 'edge',
                 style: {
                     'width': 3,
-                    'line-color': 'red',
+                    'line-color': 'gray',
                     // 'line-color': '#aeaeae', // TODO: remove this
                     'curve-style': 'bezier', // To make sure edge arrows are supported
                     'target-arrow-color': '#ccc',

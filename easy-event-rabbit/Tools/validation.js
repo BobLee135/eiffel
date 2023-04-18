@@ -137,6 +137,7 @@ function linkCheckDB(data,edition) {
             dbh.basicQuery(db, link, version, target, {"_id" : 0, "meta.type" : 1}, dataLinks[i], function(data, matches, target, linkType) {
               if(matches == 0){
               } else if(matches == 1) {
+                console.log("TARGETS:" + targets + "DATAMETATYPE:" + data.meta.type);
                 if(targets.includes(data.meta.type)){
                   legalmatch.push(data.meta.type)
                 } else {
@@ -149,6 +150,7 @@ function linkCheckDB(data,edition) {
               }
               //Check for found links and output result
               if(idx == array.length - 1) {
+                console.log("LEGALMATCH: " + legalmatch);
                 if (legalmatch === undefined || legalmatch.length == 0) {
                   //console.log("No legal target corresponding to " + target + " in database, link type " + linkType)
                   reject(new exception.eiffelException("No legal target corresponding to " + target + " in database, link type " + linkType, exception.errorType.ILLEGAL_LINK_TARGET))

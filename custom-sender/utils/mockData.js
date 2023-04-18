@@ -1,23 +1,26 @@
 import { EventCreator } from './EventCreator.js';
 import { EventSender } from './EventSender.js';
+import { EiffelEventTypes } from './EiffelEventTypes.js';
 
 const eventCreator = new EventCreator();
 const eventSender = new EventSender("http://16.170.107.18:9000");
+const eiffelEventTypes = new EiffelEventTypes();
 
 var events = [];
 
 // dev pushes code
-const codeChange = eventCreator.eiffelEvent("EiffelSourceChangeCreatedEvent", []);
-//const pushCodeEvent = eventCreator.eiffelEvent("EiffelSourceChangeSubmittedEvent", [codeChange.meta.id]);
+const codeChange = eiffelEventTypes.EiffelArtifactCreatedEvent([]);
+//const pushCodeEvent = eiffelEventTypes.EiffelSourceChangeSubmittedEvent([codeChange.meta.id]);
 events.push(codeChange);
 //events.push(pushCodeEvent);
-/*
-// tests run
-const testTriggeredEvent = eventCreator.eiffelEvent("EiffelTestCaseTriggeredEvent", [pushCodeEvent.meta.id]);
-const testStartedEvent = eventCreator.eiffelEvent("EiffelTestCaseStartedEvent", [testTriggeredEvent.meta.id]);
-events.push(testTriggeredEvent);
-events.push(testStartedEvent);
 
+// tests run
+const testTriggeredEvent = eiffelEventTypes.EiffelTestCaseTriggeredEvent([codeChange.meta.id]);
+//testTriggeredEvent.data.testCase.id = 1;
+//const testStartedEvent = eventCreator.eiffelEvent("EiffelTestCaseStartedEvent", [testTriggeredEvent.meta.id]);
+events.push(testTriggeredEvent);
+//events.push(testStartedEvent);
+/*
 // tests fail
 const testFinishedEvent = eventCreator.eiffelEvent("EiffelTestCaseFinishedEvent", [testTriggeredEvent.meta.id]);
 events.push(testFinishedEvent);

@@ -8,7 +8,7 @@ export class EventCreator {
     this.idGen = new GenerateV4UUID();
   }
 
-
+/*
   eiffelEvent(type, links) {
     let linkList = [];
     for (let i = 0; i < links.length; i++) {
@@ -30,6 +30,7 @@ export class EventCreator {
     };
     return eiffelDataObj;
   }
+  */
 
   customTrelloEvent(id, name, type, linkType, linkEventId, message) {
     let eiffelType = "EiffelArtifactCreatedEvent";
