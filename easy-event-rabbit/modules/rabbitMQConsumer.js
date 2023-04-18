@@ -26,13 +26,55 @@ const validator = require('../Tools/validation');
 const dataGenerator = require('../Tools/dataGenerator');
 const queue = 'event_queue';
 
+const exchange = 'event_exchange';
+
+exports.initRabbitMQConsumer = function () {
+    let user = process.env.RABBITMQ_USER;
+    let password = process.env.RABBITMQ_PASSWORD;
+    let url = process.env.RABBITMQ_URL;
+
+    return new Promise(async (resolve, reject) => {
+        try {
+            const connection = await amqp.connect('amqp://' + user + ':' + password + '@' + url);
+            const channel = await connection.createChannel();
+            
+            await channel.assertExchange(exchange, 'fanout', { durable: false });
+            
+            const queueResult = await channel.assertQueue('', { exclusive: true });
+            console.log("Listening for messages in %s in the RabbitMQ", queueResult.queue);
+
+            channel.bindQueue(queueResult.queue, exchange, '');
+
+            channel.consume(queueResult.queue, function(msg) {
+                let receivedEvent = JSON.parse(msg.content.toString());
+                    validator.validate(receivedEvent).then(() => {
+                        eventDb.saveEvent(receivedEvent,() => {
+                            console.log("Received event with id: %s from RabbitMQ Message bus, save to eventDB", receivedEvent.meta.id);
+                        })
+
+                    }).catch(()=>{
+                        console.log("Received %s from RabbitMQ Message bus, NOT VALIDATED, DISCARDING", msg.content.toString());
+                    });
+            }, {
+                noAck: true
+            });
+            resolve(true);
+
+        } catch (err) {
+            reject(new exception.rabbitMQException(err));
+        }
+    })
+};
+
+
+/*
 exports.initRabbitMQConsumer = function () {
     let user = process.env.RABBITMQ_USER;
     let password = process.env.RABBITMQ_PASSWORD;
     let url = process.env.RABBITMQ_URL;
 
     return new Promise((resolve, reject) => {
-        /*
+        
          amqp.connect('amqp://' + user + ':' + password + '@' + url).then((connection) => {
             connection.createChannel().then((channel) => {
                 channel.assertQueue(queue, {
@@ -65,7 +107,8 @@ exports.initRabbitMQConsumer = function () {
           .catch((err) => {
                 reject(new exception.rabbitMQException(err));
           });
-          */
+          
          resolve(true);
     })
 };
+*/

@@ -19,8 +19,49 @@ limitations under the License.*/
  * https://www.rabbitmq.com/tutorials/tutorial-two-javascript.html
  */
 const amqp = require('amqplib/callback_api');
-const queue = 'event_queue';
+//const queue = 'event_queue';
+const exchange = 'event_exchange';
 
+exports.sendToMessageBus = function(msg, messageSent){
+    let user = process.env.RABBITMQ_USER;
+    let password = process.env.RABBITMQ_PASSWORD;
+    let url = process.env.RABBITMQ_URL;
+    amqp.connect('amqp://'+user+':'+password+'@'+url, function(error0, connection) {
+        if (error0) {
+            messageSent(false, error0);
+        }
+        connection.createConfirmChannel(function(error1, channel) {
+            if (error1) {
+                messageSent(false, error1);
+            }
+
+            channel.assertExchange(exchange, 'fanout', {
+                durable: false
+            });
+            channel.publish(exchange, '', Buffer.from(msg), {},
+                function(err, ok) {
+                    if (err !== null) {
+                        console.warn('Message nacked!');
+                        messageSent(false, err);
+                    }
+                    else {
+                        console.log("Sent event with id: %s to RabbitMQ", JSON.parse(msg).meta.id);
+                        messageSent(true, null);
+                    }
+                });
+            channel.waitForConfirms(function(err){
+                if(err){
+                    console.error(err);
+                    messageSent(false, err);
+                }else{
+                    connection.close();
+                }
+            });     
+        });
+    });
+}
+
+/*
 exports.sendToMessageBus = function(msg, messageSent){
     let user = process.env.RABBITMQ_USER;
     let password = process.env.RABBITMQ_PASSWORD;
@@ -59,4 +100,4 @@ exports.sendToMessageBus = function(msg, messageSent){
         });
     });
 }
-
+*/
