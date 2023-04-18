@@ -46,7 +46,13 @@ events.push(eventCreator.eiffelEvent("EiffelSourceChangeSubmittedEvent", [testFi
 
 // trello card moved to finished list
 */
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
 for (let i = 0; i < events.length; i++) {
     eventSender.submitEvent(events[i]);
+    await delay(1000);
+    console.log("Sent event: " + events[i].meta.id + "");
 }
 
