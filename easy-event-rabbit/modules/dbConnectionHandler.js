@@ -116,6 +116,7 @@ exports.loadExamples = ()=>{
 //type = meta.type, version = X.X.X, UID = meta.id, projection = {xxx: 1}
 //Basic query function to fetch a field from a known event in the database
 exports.basicQuery = (db, type, version, UID, projection, linkType, cb) => {
+  console.log("basicQuery: " + db + " " + type + " " + version + " " + UID + " " + projection + " " + linkType + " " + cb);
   linkType = linkType
   var collection = db.collection(type)
   if (projection){
