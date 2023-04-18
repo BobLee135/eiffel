@@ -132,28 +132,36 @@ function linkCheckDB(data,edition) {
           target = data.links[i].target
 
           //For each for legaltargetType in linkType, look if there is any corresponding event for target (reducing ground searched in DB)
-          let legalMatchFound = false;
-
-          targets.forEach(function (link, idx, array) {
-            dbh.basicQuery(db, link, version, target, { "_id": 0, "meta.type": 1 }, dataLinks[i], function (data, matches, target, linkType) {
-              console.log("MATCHES: " + matches + " for link " + target + " of type " + linkType + "");
-
-              if (matches == 1 && targets.includes(data.meta.type)) {
-                legalMatchFound = true;
-                console.log("TARGETS: " + targets);
-              }
-
-              if (idx == array.length - 1) {
-                console.log("LEGALMATCH: " + legalMatchFound);
-
-                if (!legalMatchFound) {
-                  reject(new exception.eiffelException("No legal target corresponding to " + target + " in database, link type " + linkType, exception.errorType.ILLEGAL_LINK_TARGET));
+          legalmatch = []
+          targets.forEach(function(link, idx, array) {
+            dbh.basicQuery(db, link, version, target, {"_id" : 0, "meta.type" : 1}, dataLinks[i], function(data, matches, target, linkType) {
+              if(matches == 0){
+              } else if(matches == 1) {
+                if(targets.includes(data.meta.type)){
+                  legalmatch.push(data.meta.type)
                 } else {
-                  resolve();
+                  //This will probably never happen since we are querying the collection named after a legal event, which only contains events of this type...
+                  //console.log("The link corresponding to " + target + " is of type " + data.meta.type + ", it is not a legal target for this link")
+                  reject(new exception.eiffelException("The link corresponding to " + target + " is of type " + data.meta.type + ", it is not a legal target for this link", exception.errorType.ILLEGAL_LINK_TARGET))
+                }
+              } else {
+                reject(new exception.eiffelException("More than one match in query for the UUID", exception.errorType.UUID_NOT_UNIQUE))
+              }
+              //Check for found links and output result
+              if(idx == array.length - 1) {
+                if (legalmatch === undefined || legalmatch.length == 0) {
+                  //console.log("No legal target corresponding to " + target + " in database, link type " + linkType)
+                  reject(new exception.eiffelException("No legal target corresponding to " + target + " in database, link type " + linkType, exception.errorType.ILLEGAL_LINK_TARGET))
+                } else if(targets.includes(legalmatch[0])) {
+                  //console.log("Valid link in database for link type " + linkType)
+                  resolve()
+                } else {
+                  //Betyder att vi har hittat fler legal events med samma UUID till en länk, fel i
+                  reject(new exception.eiffelException("Found more than one match for this link... Something wrong with DB?", exception.errorType.MULTIPLE_LINKS_FOUND))
                 }
               }
-            });
-          });
+            })
+          })
         }
       }
     })

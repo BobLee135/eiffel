@@ -24,11 +24,11 @@ events.push(testTriggeredEvent);
 // tests fail
 const testFinishedEvent = eventCreator.eiffelEvent("EiffelTestCaseFinishedEvent", [testTriggeredEvent.meta.id]);
 events.push(testFinishedEvent);
-
+*/  
 // dev creates related card in trello
-const trelloCardCreated = eventCreator.customTrelloEvent(11, "Integration error at index.js", "createCard", "weak", testFinishedEvent.meta.id, "Trello card created");
-events.push(trelloCardCreated);
-
+//const trelloCardCreated = eventCreator.customTrelloEvent(11, "Integration error at index.js", "createCard", "Trello card created");
+//events.push(trelloCardCreated);
+/*
 // thread created in slack TODO
 
 // dev fixes code
@@ -46,13 +46,17 @@ events.push(eventCreator.eiffelEvent("EiffelSourceChangeSubmittedEvent", [testFi
 
 // trello card moved to finished list
 */
+/*
 function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
 
 for (let i = 0; i < events.length; i++) {
-    eventSender.submitEvent(events[i]);
+  */
+    eventSender.submitEvent(events[0]);
+    //eventSender.submitEvent(events[1]);
+    /*
     await delay(1000);
     console.log("Sent event: " + events[i].meta.id + "");
 }
-
+*/

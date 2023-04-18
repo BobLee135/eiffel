@@ -148,7 +148,6 @@ const getDataName = (data, edition) =>{
   //if both version and edition is provided by the client, there must be a correct match
   if(data.meta.version != null && edition != null) {
     var version = editionDic[edition][type]
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + data.meta.version + "!=" + version);
     if(data.meta.version == version){
       return(data.meta.type + " " + data.meta.version)
     } else {

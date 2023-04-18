@@ -28,6 +28,24 @@ export class EiffelEventTypes {
     };
   }
 
+  EiffelTestCaseTriggeredEvent(links) {
+    return {
+      meta: {
+        type: "EiffelTestCaseTriggeredEvent",
+        version: "3.0.0",
+        time: new Date().getTime(), // Current time in milliseconds
+        id: this.idGen.generateV4UUID(),
+        tags: ["Eiffel", "event"]
+      },
+      data: {
+        testCase: {
+          id: "1",
+        }
+      },
+      links: this.extractLinks(links, 'IUT')
+    };
+  }
+
   EiffelSourceChangeCreatedEvent(links) {
     return {
       meta: {
@@ -53,24 +71,6 @@ export class EiffelEventTypes {
       },
       data: {},
       links: this.extractLinks(links, 'CAUSE')
-    };
-  }
-
-  EiffelTestCaseTriggeredEvent(links) {
-    return {
-      meta: {
-        type: "EiffelTestCaseTriggeredEvent",
-        version: "3.0.0",
-        time: new Date().getTime(), // Current time in milliseconds
-        id: this.idGen.generateV4UUID(),
-        tags: ["Eiffel", "event"]
-      },
-      data: {
-        testCase: {
-          id: "1",
-        }
-      },
-      links: this.extractLinks(links, 'IUT')
     };
   }
 

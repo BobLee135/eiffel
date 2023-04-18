@@ -648,7 +648,6 @@ export const getAggregatedGraph = new ValidatedMethod({
                     node.data.avgQueueTime = totalQueueTime / node.data.length;
                     node.data.avgRunTime = totalRunTime / node.data.length;
                 }
-                console.log("AAAAAAAAAAAAAAAAAA : " + JSON.stringify(node));
                 nodes.push(node);
                 eventToGroup[event.id] = event.id;
             });
