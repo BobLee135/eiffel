@@ -135,9 +135,10 @@ function linkCheckDB(data,edition) {
           legalmatch = []
           targets.forEach(function(link, idx, array) {
             dbh.basicQuery(db, link, version, target, {"_id" : 0, "meta.type" : 1}, dataLinks[i], function(data, matches, target, linkType) {
+              console.log("MATCHES: " + matches + " for link " + target + " of type " + linkType + "");
               if(matches == 0){
               } else if(matches == 1) {
-                console.log("TARGETS:" + targets + "DATAMETATYPE:" + data.meta.type);
+                console.log("TARGETS: " + targets);
                 if(targets.includes(data.meta.type)){
                   legalmatch.push(data.meta.type)
                 } else {
