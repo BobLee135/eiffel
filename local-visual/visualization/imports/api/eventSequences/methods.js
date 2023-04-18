@@ -808,7 +808,7 @@ export const getEventChainGraph = new ValidatedMethod({
                         node.version = event.version;
                         // console.log("The eventSource is: " + JSON.stringify(event))
                         if (event.source !== null) {
-                            if (event.source.name !== undefined || event.data.identity !== undefined) {
+                            if (event.source.name !== undefined && event.data.identity !== undefined) {
                                 node.data.identity = event.data.identity;
                                 node.data.name = event.source.name;
                             }
