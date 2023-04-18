@@ -1,3 +1,5 @@
+
+
 class LinkFinder {
   constructor () {
     // setup mongodb connection

@@ -9,7 +9,11 @@ export class EventCreator {
   }
 
 
-  eiffelEvent(type) {
+  eiffelEvent(type, links) {
+    let linkList = [];
+    for (let i = 0; i < links.length; i++) {
+      linkList.push({type: 'CAUSE', target: links[i]});
+    }
     let eiffelDataObj = {
       meta: {
         type: type,
@@ -19,10 +23,10 @@ export class EventCreator {
         tags: ["Eiffel", "event"]
       },
       data: {
-        identity: "pkg:trello/card@1.0.0",
-        name: "Trello card created"
+        identity: "someEventSource",
+        name: "Event"
       },
-      links: []
+      links: linkList
     };
     return eiffelDataObj;
   }
