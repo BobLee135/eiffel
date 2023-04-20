@@ -546,6 +546,7 @@ export const getAggregatedGraph = new ValidatedMethod({
             let eventToGroup = {};
 
             let nodes = [];
+            console.log("EVENTS: " + JSON.stringify(events));
             _.each(events, (event) => {
                 
                 let label = event.name;

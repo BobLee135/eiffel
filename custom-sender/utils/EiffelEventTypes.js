@@ -12,7 +12,7 @@ export class EiffelEventTypes {
     return linkList;
   }
 
-  EiffelArtifactCreatedEvent(links) {
+  EiffelArtifactCreatedEvent(links, linkType) {
     return {
       meta: {
         type: "EiffelArtifactCreatedEvent",
@@ -24,11 +24,11 @@ export class EiffelEventTypes {
       data: {
         identity: "pkg:eiffel/test@1.0.0",
       },
-      links: this.extractLinks(links, 'CAUSE')
+      links: this.extractLinks(links, linkType)
     };
   }
 
-  EiffelTestCaseTriggeredEvent(links) {
+  EiffelTestCaseTriggeredEvent(links, linkType) {
     return {
       meta: {
         type: "EiffelTestCaseTriggeredEvent",
@@ -42,11 +42,11 @@ export class EiffelEventTypes {
           id: "1",
         }
       },
-      links: this.extractLinks(links, 'IUT')
+      links: this.extractLinks(links, linkType)
     };
   }
 
-  EiffelSourceChangeCreatedEvent(links) {
+  EiffelSourceChangeCreatedEvent(links, linkType) {
     return {
       meta: {
         type: "EiffelSourceChangeCreatedEvent",
@@ -56,11 +56,11 @@ export class EiffelEventTypes {
         tags: ["Eiffel", "event"]
       },
       data: {},
-      links: this.extractLinks(links, 'CAUSE')
+      links: this.extractLinks(links, linkType)
     };
   }
 
-  EiffelSourceChangeSubmittedEvent(links) {
+  EiffelSourceChangeSubmittedEvent(links, linkType) {
     return {
       meta: {
         type: "EiffelSourceChangeSubmittedEvent",
@@ -70,11 +70,11 @@ export class EiffelEventTypes {
         tags: ["Eiffel", "event"]
       },
       data: {},
-      links: this.extractLinks(links, 'CAUSE')
+      links: this.extractLinks(links, linkType)
     };
   }
 
-  EiffelTestCaseStartedEvent(links) {
+  EiffelTestCaseStartedEvent(links, linkType) {
     return {
       meta: {
         type: "EiffelTestCaseStartedEvent",
@@ -84,11 +84,11 @@ export class EiffelEventTypes {
         tags: ["Eiffel", "event"]
       },
       data: {},
-      links: this.extractLinks(links)
+      links: this.extractLinks(links, linkType)
     };
   }
 
-  EiffelTestCaseFinishedEvent(links) {
+  EiffelTestCaseFinishedEvent(links, linkType, outcome) {
     return {
       meta: {
         type: "EiffelTestCaseFinishedEvent",
@@ -97,8 +97,13 @@ export class EiffelEventTypes {
         id: this.idGen.generateV4UUID(),
         tags: ["Eiffel", "event"]
       },
-      data: {},
-      links: this.extractLinks(links)
+      data: {
+        outcome: {
+          verdict: outcome,
+          conclusion: outcome === "PASSED" ? "SUCCESSFUL" : "FAILED"
+        }
+      },
+      links: this.extractLinks(links, linkType)
     };
   }
 }

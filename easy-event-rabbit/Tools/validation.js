@@ -56,42 +56,43 @@ function initialValidate(data,edition){
   })
 }
 
-function linkCheck(data,edition){
-  return new Promise((resolve,reject) =>{
-  lookUpArray = findAllRequiredLinks(data,edition)
-  if(lookUpArray.length < 1 || lookUpArray == undefined){
-    resolve()
-  } else {
-    //TODO: add lookUpArray in exception call
-    reject(new exception.lookUpException("Links missing: " + lookUpArray.join(), exception.errorType.MISSING_LINKS))
-  }
-
-})
+function linkCheck(data, edition){
+  console.log("LINKCHECK: " + JSON.stringify(data) + " EDITION: " + edition);
+  return new Promise((resolve,reject) => {
+    lookUpArray = findAllRequiredLinks(data, edition)
+    console.log("LOOKUP_ARRAY: " + lookUpArray);
+    if (lookUpArray.length < 1 || lookUpArray == undefined){
+      resolve()
+    } else {
+      //TODO: add lookUpArray in exception call
+      reject(new exception.lookUpException("Links missing: " + lookUpArray.join(), exception.errorType.MISSING_LINKS))
+    }
+  })
 }
 
 //check if all required links are present with use of linkRequirements.js
-function findAllRequiredLinks(data,edition){
+function findAllRequiredLinks(data, edition) {
   linkArr = []
   missingArr = []
-  reqs = requiredLinks(data,edition)
-  for(i in data.links){
+  reqs = requiredLinks(data, edition)
+  for (i in data.links) {
     linkArr.push(data.links[i].type)
   }
-  for(i in reqs)
-  if(!linkArr.includes(reqs[i])){
+  for (i in reqs)
+  if (!linkArr.includes(reqs[i])) {
     missingArr.push(reqs[i]);
   }
   return missingArr
 }
 
 //Make list of required fields for the schema
-function requiredLinks(data,edition){
+function requiredLinks(data, edition) {
   required = []
   reqSchema = schemaParser.matchDatatoSchema(data,edition)
   schemaName = schemaParser.getSchemaType(reqSchema)
   reqs = linkRequirments[schemaName]
-  for(i in reqs){
-    if(reqs[i].required){
+  for (i in reqs) {
+    if (reqs[i].required) {
       required.push(i)
     }
   }
