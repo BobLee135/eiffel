@@ -100,76 +100,88 @@ function requiredLinks(data,edition){
 
 function linkCheckDB(data, edition) {
   return new Promise((resolve, reject) => {
-      if (data.links != null && data.links.length != 0) {
+    if (data.links != null && data.links.length != 0) {
+      let schema = schemaParser.matchDatatoSchema(data, edition);
+      var version = schemaParser.getSchemaVersion(schema);
+      let dataLinks = [];
 
-          let schema = schemaParser.matchDatatoSchema(data, edition)
-          var version = schemaParser.getSchemaVersion(schema)
-          let dataLinks = []
+      data.links.forEach((element) => {
+        dataLinks.push(element.type);
+      });
 
-          data.links.forEach(element => {
-              dataLinks.push(element.type)
-          });
+      var exName = data.meta.type;
 
-          var exName = data.meta.type
+      dbh.getEventDBInstance((db, err) => {
+        let promiseArray = dataLinks.map((linkType, i) => {
+          let target = data.links[i].target;
+          let targets = linkRequirments[exName][linkType].legal_targets;
 
-          dbh.getEventDBInstance((db, err) => {
-
-              let promiseArray = [];
-
-              for (let i in dataLinks) {
-                  let targets = linkRequirments[exName][dataLinks[i]].legal_targets
-                  if (targets == 'any') {
-                      resolve()
-                  } else {
-                      let target = data.links[i].target
-
-                      let targetPromises = targets.map(function (link) {
-                          return new Promise((resolve, reject) => {
-                              dbh.basicQuery(db, link, version, target, { "_id": 0, "meta.type": 1 }, dataLinks[i], function (data, matches, target, linkType) {
-                                  if (matches == 0) {
-                                      resolve(null);
-                                  } else if (matches == 1) {
-                                      if (targets.includes(data.meta.type)) {
-                                          resolve(data.meta.type);
-                                      } else {
-                                          reject(new exception.eiffelException("The link corresponding to " + target + " is of type " + data.meta.type + ", it is not a legal target for this link", exception.errorType.ILLEGAL_LINK_TARGET));
-                                      }
-                                  } else {
-                                      reject(new exception.eiffelException("More than one match in query for the UUID", exception.errorType.UUID_NOT_UNIQUE));
-                                  }
-                              });
-                          });
-                      });
-
-                      promiseArray.push(...targetPromises);
-                  }
-              }
-
-              allSettled(promiseArray)
-                  .then(results => {
-                      let legalmatch = [];
-                      results.forEach(result => {
-                          if (result.status === "fulfilled" && result.value !== null) {
-                              legalmatch.push(result.value);
-                          }
-                      });
-
-                      if (legalmatch.length === 0) {
-                          reject(new exception.eiffelException("No legal target corresponding to " + target + " in database, link type " + linkType, exception.errorType.ILLEGAL_LINK_TARGET));
-                      } else if (targets.includes(legalmatch[0])) {
-                          resolve();
+          if (targets == "any") {
+            return Promise.resolve();
+          } else {
+            return new Promise((innerResolve, innerReject) => {
+              let legalmatch = [];
+              targets.forEach((link, idx, array) => {
+                dbh.basicQuery(db, link, version, target, { _id: 0, "meta.type": 1 }, linkType, (data, matches) => {
+                    if (matches == 0) {
+                    } else if (matches == 1) {
+                      if (targets.includes(data.meta.type)) {
+                        legalmatch.push(data.meta.type);
                       } else {
-                          reject(new exception.eiffelException("Found more than one match for this link... Something wrong with DB?", exception.errorType.MULTIPLE_LINKS_FOUND));
+                        innerReject(
+                          new exception.eiffelException(
+                            "The link corresponding to " + target + " is of type " + data.meta.type + ", it is not a legal target for this link", exception.errorType.ILLEGAL_LINK_TARGET
+                          )
+                        );
                       }
-                  })
-                  .catch(error => {
-                      reject(error);
-                  });
+                    } else {
+                      innerReject(
+                        new exception.eiffelException(
+                          "More than one match in query for the UUID", exception.errorType.UUID_NOT_UNIQUE
+                        )
+                      );
+                    }
 
+                    if (idx == array.length - 1) {
+                      if (legalmatch === undefined || legalmatch.length == 0) {
+                        innerReject(
+                          new exception.eiffelException(
+                            "No legal target corresponding to " + target + " in database, link type " + linkType, exception.errorType.ILLEGAL_LINK_TARGET
+                          )
+                        );
+                      } else if (targets.includes(legalmatch[0])) {
+                        innerResolve();
+                      } else {
+                        innerReject(
+                          new exception.eiffelException(
+                            "Found more than one match for this link... Something wrong with DB?", exception.errorType.MULTIPLE_LINKS_FOUND
+                          )
+                        );
+                      }
+                    }
+                  }
+                );
+              });
+            });
+          }
+        });
+
+        allSettled(promiseArray)
+          .then((results) => {
+            const rejected = results.filter((result) => result.status === "rejected");
+            if (rejected.length > 0) {
+              reject(rejected[0].reason);
+            } else {
+              resolve();
+            }
+          })
+          .catch((error) => {
+            reject(error);
           });
-      } else {
-          resolve();
-      }
+      });
+    } else {
+      resolve();
+    }
   });
 }
 
