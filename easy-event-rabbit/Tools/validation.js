@@ -138,13 +138,13 @@ function linkCheckDB(data,edition) {
             console.log("DATALINKS: " + dataLinks);
             console.log("QUYERY FOR: " + link + " " + version + " " + target + " " + dataLinks[i] + "");
             dbh.basicQuery(db, link, version, target, {"_id" : 0, "meta.type" : 1}, dataLinks[i], function(data, matches, target, linkType) {
-              console.log("QUERY RESULTS: " + data + " " + matches + " " + target + " " + linkType);
-              console.log("MATCHES: " + matches);
+              console.log("QUERY RESULTS: " + "MATCHES: " + matches + " TARGET: " + target + " LINKTYPE: " + linkType);
               if(matches == 0){
                 console.log("no matches");
               } else if(matches == 1) {
-                console.log("TARGETS: " + targets + " DATA: " + data.meta.type);
+                console.log("matches one");
                 if(targets.includes(data.meta.type)){
+                  console.log("pushing data: " + data.meta.type);
                   legalmatch.push(data.meta.type)
                 } else {
                   //This will probably never happen since we are querying the collection named after a legal event, which only contains events of this type...
@@ -155,19 +155,24 @@ function linkCheckDB(data,edition) {
                 reject(new exception.eiffelException("More than one match in query for the UUID", exception.errorType.UUID_NOT_UNIQUE))
               }
               //Check for found links and output result
+              console.log("checking...");
               if(idx == array.length - 1) {
                 console.log("LEGALMATCH: " + legalmatch);
                 if (legalmatch === undefined || legalmatch.length == 0) {
+                  console.log("rejected");
                   //console.log("No legal target corresponding to " + target + " in database, link type " + linkType)
                   reject(new exception.eiffelException("No legal target corresponding to " + target + " in database, link type " + linkType, exception.errorType.ILLEGAL_LINK_TARGET))
                 } else if(targets.includes(legalmatch[0])) {
+                  console.log("resolved");
                   //console.log("Valid link in database for link type " + linkType)
                   resolve()
                 } else {
+                  console.log("rejected for multiple ones found");
                   //Betyder att vi har hittat fler legal events med samma UUID till en länk, fel i
                   reject(new exception.eiffelException("Found more than one match for this link... Something wrong with DB?", exception.errorType.MULTIPLE_LINKS_FOUND))
                 }
               }
+              console.log("done checking");
             })
           })
         }
