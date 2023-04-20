@@ -22,6 +22,7 @@ var schemaParser = require('./schemaParser.js')
 var dbh = require("../modules/dbConnectionHandler")
 const exception = require('../modules/eventSenderException');
 const stringBuilder = require('./stringBuilder');
+const allSettled = require('promise-all-settled');
 
 
 //validates Schema (data: an event to be validated, cb is callback function that is run with errors after validation finishes)
@@ -144,7 +145,7 @@ function linkCheckDB(data, edition) {
                   }
               }
 
-              Promise.allSettled(promiseArray)
+              allSettled(promiseArray)
                   .then(results => {
                       let legalmatch = [];
                       results.forEach(result => {
