@@ -57,9 +57,9 @@ function delay(time) {
 
 for (let i = 0; i < events.length; i++) {
     eventSender.submitEvent(events[i]);
+    console.log("Sent event: " + events[i].meta.id + "");
     
     await delay(1000);
-    console.log("Sent event: " + events[i].meta.id + "");
 }
 
 /*

@@ -102,9 +102,9 @@ function linkCheckDB(data,edition) {
     if(data.links != null && data.links.length != 0){
 
     //dataLinks is the list of link types in data object
-    schema = schemaParser.matchDatatoSchema(data, edition)
+    let schema = schemaParser.matchDatatoSchema(data, edition)
     var version = schemaParser.getSchemaVersion(schema)
-    dataLinks = []
+    let dataLinks = []
 
     data.links.forEach(element => {
       dataLinks.push(element.type)
@@ -117,9 +117,9 @@ function linkCheckDB(data,edition) {
     dbh.getEventDBInstance((db, err) => {
 
       //Iterate over each link to validate the target type
-      for(i in dataLinks){
+      for(let i in dataLinks){
         //targets is the legal targets of each link in dataLinks
-        targets = linkRequirments[exName][dataLinks[i]].legal_targets
+        let targets = linkRequirments[exName][dataLinks[i]].legal_targets
         if(targets == 'any') {
 
           //console.log("Legal target 'any' for link type " +  data.links[i].type + ", OK")
@@ -129,14 +129,21 @@ function linkCheckDB(data,edition) {
 
           //Lookup if link is corresponding to a legal target for the link "type" e.g. CAUSE or ENVIRONMENT
 
-          target = data.links[i].target
+          let target = data.links[i].target
 
           //For each for legaltargetType in linkType, look if there is any corresponding event for target (reducing ground searched in DB)
-          legalmatch = []
+          let legalmatch = []
           targets.forEach(function(link, idx, array) {
+            console.log("LINK: " + link);
+            console.log("DATALINKS: " + dataLinks);
+            console.log("QUYERY FOR: " + link + " " + version + " " + target + " " + dataLinks[i] + "");
             dbh.basicQuery(db, link, version, target, {"_id" : 0, "meta.type" : 1}, dataLinks[i], function(data, matches, target, linkType) {
+              console.log("QUERY RESULTS: " + data + " " + matches + " " + target + " " + linkType);
+              console.log("MATCHES: " + matches);
               if(matches == 0){
+                console.log("no matches");
               } else if(matches == 1) {
+                console.log("TARGETS: " + targets + " DATA: " + data.meta.type);
                 if(targets.includes(data.meta.type)){
                   legalmatch.push(data.meta.type)
                 } else {
@@ -149,6 +156,7 @@ function linkCheckDB(data,edition) {
               }
               //Check for found links and output result
               if(idx == array.length - 1) {
+                console.log("LEGALMATCH: " + legalmatch);
                 if (legalmatch === undefined || legalmatch.length == 0) {
                   //console.log("No legal target corresponding to " + target + " in database, link type " + linkType)
                   reject(new exception.eiffelException("No legal target corresponding to " + target + " in database, link type " + linkType, exception.errorType.ILLEGAL_LINK_TARGET))
