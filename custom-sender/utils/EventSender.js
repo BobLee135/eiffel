@@ -3,6 +3,7 @@ import Axios from 'axios';
 export class EventSender {
 
   EASY_EVENT_RABBIT_IP_ADDRESS = "";
+  AUTH_TOKEN;
 
   constructor(ip_address) {
     this.EASY_EVENT_RABBIT_IP_ADDRESS = ip_address;
@@ -28,7 +29,10 @@ export class EventSender {
   }
 
   async submitEvent(eiffelDataObj) {
-    const auth_token = await this.login();
+    if (this.AUTH_TOKEN == undefined) {
+      const auth_token = await this.login();
+      this.AUTH_TOKEN = auth_token;
+    }
 
     const parameterObj = {
       sendToMessageBus: true,
@@ -36,7 +40,7 @@ export class EventSender {
     };
 
     let config = {
-      headers: { "auth-token": auth_token }
+      headers: { "auth-token": this.AUTH_TOKEN }
     };
 
     await Axios.post(
@@ -44,7 +48,7 @@ export class EventSender {
       { eiffelDataObj, parameterObj },
       config
     ).then(function(response) {
-      console.log(response + "-message sent");
+      console.log("Event sent: " + eiffelDataObj.meta.id + ": " + eiffelDataObj.meta.type);
     }).catch(function(error) {
       if (error.response) {
         console.error('Error status:', error.response.status);

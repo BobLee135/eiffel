@@ -32,7 +32,7 @@ export class EventCreator {
   }
   */
 
-  customTrelloEvent(id, name, type, linkType, linkEventId, message) {
+  customTrelloEvent(trelloId, name, type, linkType, linkEventId, message) {
     let eiffelType = "EiffelArtifactCreatedEvent";
     let tag;
     switch (type) {
@@ -66,7 +66,7 @@ export class EventCreator {
           {
             key: "trelloActivity",
             value: {
-              id: id,
+              id: trelloId,
               name: name,
               message: message,
               type: type,
