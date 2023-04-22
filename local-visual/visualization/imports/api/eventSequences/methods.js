@@ -546,14 +546,12 @@ export const getAggregatedGraph = new ValidatedMethod({
             let eventToGroup = {};
 
             let nodes = [];
-            console.log("EVENTS: " + JSON.stringify(events));
             _.each(events, (event) => {
                 
                 let label = event.name;
                 if (event.data.customData !== undefined) {
                     var customData = event.data.customData[0]["value"]
                     label = customData.type;
-                    console.log("NEW LABEL MY MAN : " + label + JSON.stringify(customData));
                 }
                 
                 let node = {
@@ -628,8 +626,8 @@ export const getAggregatedGraph = new ValidatedMethod({
                     node.data.inconclusive = valueCount.hasOwnProperty('INCONCLUSIVE') ? valueCount['INCONCLUSIVE'] : 0;
                 }
                 else if (isTestEvent(node.data.type)) {
-                     console.log("isTestEvent - IF");
-                    let valueCount = _.countBy(events, (event) => event.data.outcome.verdict);
+                    console.log("isTestEvent - IF");
+                    let valueCount = _.countBy(events, (event) => event.data.outcome ? event.data.outcome.verdict : undefined);
                     let passedCount = valueCount.hasOwnProperty('PASSED') ? valueCount['PASSED'] : 0;
                     let failedCount = valueCount.hasOwnProperty('FAILED') ? valueCount['FAILED'] : 0;
                     node.data.inconclusive = valueCount.hasOwnProperty('INCONCLUSIVE') ? valueCount['INCONCLUSIVE'] : 0;
@@ -685,6 +683,7 @@ export const getAggregatedGraph = new ValidatedMethod({
             });
 
             console.log(edges);
+            console.log(nodes);
 
             return {nodes: nodes, edges: edges, sequences: sequencesIds, detectedEventWithDiffValue: filterData.detectedEventWithDiffValue, conflicts: filterData.conflicts};
         }

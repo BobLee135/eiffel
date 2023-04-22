@@ -56,21 +56,25 @@ var events = [];
 const scc = eiffelEventTypes.EiffelSourceChangeCreatedEvent([]);
 const art = eiffelEventTypes.EiffelArtifactCreatedEvent([scc.meta.id], 'CAUSE');
 const tct = eiffelEventTypes.EiffelTestCaseTriggeredEvent([scc.meta.id], 'IUT');
+const tct3 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([scc.meta.id], 'IUT');
 const tcs = eiffelEventTypes.EiffelTestCaseStartedEvent([tct.meta.id], 'TEST_CASE_EXECUTION');
-const tcf = eiffelEventTypes.EiffelTestCaseFinishedEvent([tcs.meta.id], 'TEST_CASE_EXECUTION', 'FAILED');
-const trelloCardCreated = eventCreator.customTrelloEvent(11, "Integration error at index.js", "createCard", "WEAK", tcf.meta.id, "Trello card created");
+const tcf = eiffelEventTypes.EiffelTestCaseFinishedEvent([tct.meta.id], 'TEST_CASE_EXECUTION', 'FAILED');
+const tcf3 = eiffelEventTypes.EiffelTestCaseFinishedEvent([tct.meta.id], 'TEST_CASE_EXECUTION', 'FAILED');
+const trelloCardCreated = eventCreator.customTrelloEvent(11, "Integration error at index.js", "createCard", "WEAK", art.meta.id, "Trello card created");
 const scc2 = eiffelEventTypes.EiffelSourceChangeCreatedEvent([art.meta.id], 'BASE');
 const art2 = eiffelEventTypes.EiffelArtifactCreatedEvent([scc2.meta.id], 'CAUSE');
 const tct2 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([art2.meta.id], 'IUT');
 const tcs2 = eiffelEventTypes.EiffelTestCaseStartedEvent([tct2.meta.id], 'TEST_CASE_EXECUTION');
-const tcf2 = eiffelEventTypes.EiffelTestCaseFinishedEvent([tcs2.meta.id], 'TEST_CASE_EXECUTION', 'PASSED');
+const tcf2 = eiffelEventTypes.EiffelTestCaseFinishedEvent([tct2.meta.id], 'TEST_CASE_EXECUTION', 'PASSED');
 const scc3 = eiffelEventTypes.EiffelSourceChangeCreatedEvent([scc2.meta.id], 'BASE');
 
 events.push(scc);
 events.push(art);
 events.push(tct);
+events.push(tct3);
 events.push(tcs);
 events.push(tcf);
+events.push(tcf3);
 events.push(trelloCardCreated);
 events.push(scc2);
 events.push(art2);
@@ -88,7 +92,7 @@ function delay(time) {
 
 for (let i = 0; i < events.length; i++) {
     eventSender.submitEvent(events[i]);
-    await delay(1000);
+    await delay(500);
 }
 
 /*

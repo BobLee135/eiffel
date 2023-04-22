@@ -23,6 +23,7 @@ const PASS_COLOR = '#22b14c';
 const FAIL_COLOR = '#af0020';
 const ELSE_COLOR = '#666';
 function renderGraph(graph, container, level) {
+    console.log("TEST GRAPH 1");
     let cy = cytoscape({
 
         container: container,
@@ -285,7 +286,7 @@ function renderGraph(graph, container, level) {
                     'background-image': '/images/green.png',
                     'background-height': '100%',
                     'background-width': function (ele) {
-                        return (ele.data("passed") * 100 / ele.data("length") ).toString() + '%';
+                        return (ele.data("passed") / (ele.data("failed") + ele.data("passed")) * 100).toString() + '%';
                     },
                     'background-position-x': '0px'
                 }
@@ -304,7 +305,7 @@ function renderGraph(graph, container, level) {
                     'background-image': '/images/green.png',
                     'background-height': '100%',
                     'background-width': function (ele) {
-                        return (ele.data("passed") * 100 / ele.data("length") ).toString() + '%';
+                        return (ele.data("passed") / (ele.data("failed") + ele.data("passed")) * 100).toString() + '%';
                     },
                 }
             },
@@ -437,6 +438,7 @@ function renderGraph(graph, container, level) {
         //[{"key":"trelloActivity","value":{"message":"Trello card created","id":24}}]
 
     }
+
 
     function getLevelThreeContent(nodeData) {
         let nodeLabel = nodeData.label;
@@ -606,6 +608,7 @@ function renderGraph(graph, container, level) {
         }
     }
 
+
     function getTooltipButton(nodeData) {
         return '<button type="button" class="btn btn-block btn-info aggregation-tt-btn" value="' + nodeData.id + ';' + nodeData.type + '"> Show all events </button>'
     }
@@ -640,6 +643,7 @@ function renderGraph(graph, container, level) {
             }
         },
     });
+
 
     // Settings for panzoom
     let defaults = {

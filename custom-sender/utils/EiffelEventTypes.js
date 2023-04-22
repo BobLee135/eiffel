@@ -88,7 +88,7 @@ export class EiffelEventTypes {
     };
   }
 
-  EiffelTestCaseFinishedEvent(links, linkType, outcome) {
+  EiffelTestCaseFinishedEvent(links, linkType, testOutcome) {
     return {
       meta: {
         type: "EiffelTestCaseFinishedEvent",
@@ -99,8 +99,8 @@ export class EiffelEventTypes {
       },
       data: {
         outcome: {
-          verdict: outcome,
-          conclusion: outcome === "PASSED" ? "SUCCESSFUL" : "FAILED"
+          verdict: testOutcome,
+          conclusion: testOutcome === "PASSED" ? "SUCCESSFUL" : "FAILED"
         }
       },
       links: this.extractLinks(links, linkType)

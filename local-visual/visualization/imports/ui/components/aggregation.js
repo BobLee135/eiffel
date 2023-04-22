@@ -305,7 +305,6 @@ function showAggregation(from, to, limit, filter) {
                 $('.aggregation-filtering').css("padding-bottom", "10px");
                 eventClash = "include";
             }
-
             let container = $('#cy-aggregation');
             Session.set('displayedSequenceIds', graph.sequences);
             if ((graph.conflicts) && (graph.conflicts.ids) && (filter.eventClash)) {
