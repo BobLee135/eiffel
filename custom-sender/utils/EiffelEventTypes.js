@@ -12,6 +12,61 @@ export class EiffelEventTypes {
     return linkList;
   }
 
+  CustomTrelloEvent(trelloId, name, type, message, links, linkTypes, linkStrength) {
+    let eiffelType = "EiffelArtifactCreatedEvent";
+    let tag;
+    switch (type) {
+      case 'createCard':
+        tag = "card-created";
+        break;
+      case 'updateCard':
+        tag = "card-modified";
+        break;
+      case 'deleteCard':
+        tag = "card-deleted";
+        break;
+      default:
+        message = "Other Trello event";
+        tag = "card-event";
+    }
+
+
+    return {
+      meta: {
+        type: eiffelType,
+        version: "3.0.0",
+        time: new Date().getTime(), // Current time in milliseconds
+        id: this.idGen.generateV4UUID(),
+        tags: ["Trello", tag]
+      },
+      data: {
+        identity: "pkg:trello/card@1.0.0",
+        name: message,
+        customData: [
+          {
+            key: "trelloActivity",
+            value: {
+              id: trelloId,
+              name: name,
+              message: message,
+              type: type,
+              linkType: linkStrength,
+            }
+          }
+        ]
+      },
+      links: this.extractLinks(links, linkTypes)
+    };
+  }
+
+
+
+
+
+
+
+
+
   EiffelArtifactCreatedEvent(links, linkType) {
     return {
       meta: {

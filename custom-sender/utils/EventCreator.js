@@ -1,3 +1,4 @@
+/*
 import { GenerateV4UUID } from "./generateV4UUID.js";
 
 export class EventCreator {
@@ -8,31 +9,7 @@ export class EventCreator {
     this.idGen = new GenerateV4UUID();
   }
 
-/*
-  eiffelEvent(type, links) {
-    let linkList = [];
-    for (let i = 0; i < links.length; i++) {
-      linkList.push({type: 'CAUSE', target: links[i]});
-    }
-    let eiffelDataObj = {
-      meta: {
-        type: type,
-        version: "3.0.0",
-        time: new Date().getTime(), // Current time in milliseconds
-        id: this.idGen.generateV4UUID(),
-        tags: ["Eiffel", "event"]
-      },
-      data: {
-        identity: "someEventSource",
-        name: "Event"
-      },
-      links: linkList
-    };
-    return eiffelDataObj;
-  }
-  */
-
-  customTrelloEvent(trelloId, name, type, linkType, linkEventId, message) {
+  customTrelloEvent(trelloId, name, type, message, links, linkTypes) {
     let eiffelType = "EiffelArtifactCreatedEvent";
     let tag;
     switch (type) {
@@ -86,3 +63,4 @@ export class EventCreator {
     
   }
 } 
+*/
