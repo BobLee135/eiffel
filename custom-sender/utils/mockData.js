@@ -67,7 +67,7 @@ const issue_opened = eiffelEventTypes.CustomTrelloEvent(
   "Trello card created",
   [dev_makes_branch.meta.id],
   'CAUSE',
-  'weak'
+  ['weak']
 );
 
 const dev_makes_branch_2 = eiffelEventTypes.EiffelSourceChangeCreatedEvent([dev_makes_branch.meta.id], 'BASE'); // maybe this should be connected to the first scc

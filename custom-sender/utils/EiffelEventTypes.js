@@ -12,7 +12,7 @@ export class EiffelEventTypes {
     return linkList;
   }
 
-  CustomTrelloEvent(trelloId, name, type, message, links, linkTypes, linkStrength) {
+  CustomTrelloEvent(trelloId, name, type, message, links, linkTypes, linkStrengths) {
     let eiffelType = "EiffelArtifactCreatedEvent";
     let tag;
     switch (type) {
@@ -50,7 +50,7 @@ export class EiffelEventTypes {
               name: name,
               message: message,
               type: type,
-              linkType: linkStrength,
+              linkType: linkStrengths,
             }
           }
         ]

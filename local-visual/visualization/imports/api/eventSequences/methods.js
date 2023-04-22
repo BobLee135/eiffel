@@ -657,11 +657,11 @@ export const getAggregatedGraph = new ValidatedMethod({
             let edges = [];
             _.each(events, (event) => {
                 let source = event.id;
-                _.each(event.targets.concat(event.dangerousTargets), (targetId) => {
+                _.each(event.targets.concat(event.dangerousTargets), (targetId, targetIndex) => {
                     let target = eventToGroup[targetId];
                     let linkType = "";
                     if (event.data.customData !== undefined) {
-                        linkType = event.data.customData[0]["value"].linkType;
+                        linkType = event.data.customData[0]["value"].linkType[targetIndex];
                     }
                     if (source !== undefined && target !== undefined && linkType !== undefined) {
                         edges.push({
