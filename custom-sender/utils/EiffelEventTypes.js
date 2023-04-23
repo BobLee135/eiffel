@@ -48,7 +48,7 @@ export class EiffelEventTypes {
             value: {
               id: trelloId,
               name: name,
-              message: message,
+              activity: message,
               type: type,
               linkType: linkStrengths,
             }
@@ -67,7 +67,7 @@ export class EiffelEventTypes {
 
 
 
-  EiffelArtifactCreatedEvent(links, linkType) {
+  EiffelArtifactCreatedEvent(links, linkType, message) {
     return {
       meta: {
         type: "EiffelArtifactCreatedEvent",
@@ -78,12 +78,20 @@ export class EiffelEventTypes {
       },
       data: {
         identity: "pkg:eiffel/test@1.0.0",
+        customData: message !== undefined && message !== '' ? [
+          {
+            key: "activity",
+            value: {
+              activity: message,
+            }
+          }
+        ] : undefined
       },
       links: this.extractLinks(links, linkType)
     };
   }
 
-  EiffelTestCaseTriggeredEvent(links, linkType) {
+  EiffelTestCaseTriggeredEvent(links, linkType, message) {
     return {
       meta: {
         type: "EiffelTestCaseTriggeredEvent",
@@ -95,13 +103,21 @@ export class EiffelEventTypes {
       data: {
         testCase: {
           id: "1",
-        }
+        },
+        customData: message !== undefined && message !== '' ? [
+          {
+            key: "activity",
+            value: {
+              activity: message,
+            }
+          }
+        ] : undefined
       },
       links: this.extractLinks(links, linkType)
     };
   }
 
-  EiffelSourceChangeCreatedEvent(links, linkType) {
+  EiffelSourceChangeCreatedEvent(links, linkType, message) {
     return {
       meta: {
         type: "EiffelSourceChangeCreatedEvent",
@@ -110,12 +126,21 @@ export class EiffelEventTypes {
         id: this.idGen.generateV4UUID(),
         tags: ["Eiffel", "event"]
       },
-      data: {},
+      data: {
+        customData: message !== undefined && message !== '' ? [
+          {
+            key: "activity",
+            value: {
+              activity: message,
+            }
+          }
+        ] : undefined
+      },
       links: this.extractLinks(links, linkType)
     };
   }
 
-  EiffelSourceChangeSubmittedEvent(links, linkType) {
+  EiffelSourceChangeSubmittedEvent(links, linkType, message) {
     return {
       meta: {
         type: "EiffelSourceChangeSubmittedEvent",
@@ -124,12 +149,21 @@ export class EiffelEventTypes {
         id: this.idGen.generateV4UUID(),
         tags: ["Eiffel", "event"]
       },
-      data: {},
+      data: {
+        customData: message !== undefined && message !== '' ? [
+          {
+            key: "activity",
+            value: {
+              activity: message,
+            }
+          }
+        ] : undefined
+      },
       links: this.extractLinks(links, linkType)
     };
   }
 
-  EiffelTestCaseStartedEvent(links, linkType) {
+  EiffelTestCaseStartedEvent(links, linkType, message) {
     return {
       meta: {
         type: "EiffelTestCaseStartedEvent",
@@ -138,12 +172,21 @@ export class EiffelEventTypes {
         id: this.idGen.generateV4UUID(),
         tags: ["Eiffel", "event"]
       },
-      data: {},
+      data: {
+        customData: message !== undefined && message !== '' ? [
+          {
+            key: "activity",
+            value: {
+              activity: message,
+            }
+          }
+        ] : undefined
+      },
       links: this.extractLinks(links, linkType)
     };
   }
 
-  EiffelTestCaseFinishedEvent(links, linkType, testOutcome) {
+  EiffelTestCaseFinishedEvent(links, linkType, testOutcome, message) {
     return {
       meta: {
         type: "EiffelTestCaseFinishedEvent",
@@ -156,7 +199,15 @@ export class EiffelEventTypes {
         outcome: {
           verdict: testOutcome,
           conclusion: testOutcome === "PASSED" ? "SUCCESSFUL" : "FAILED"
-        }
+        },
+        customData: message !== undefined && message !== '' ? [
+          {
+            key: "activity",
+            value: {
+              activity: message,
+            }
+          }
+        ] : undefined
       },
       links: this.extractLinks(links, linkType)
     };

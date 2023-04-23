@@ -305,7 +305,8 @@ function renderGraph(graph, container, level) {
                     'background-image': '/images/green.png',
                     'background-height': '100%',
                     'background-width': function (ele) {
-                        return (ele.data("passed") / (ele.data("failed") + ele.data("passed")) * 100).toString() + '%';
+                        //return (ele.data("passed") / (ele.data("failed") + ele.data("passed")) * 100).toString() + '%';
+                        return (ele.data("passed") === 1 ? 100 : 0).toString() + '%';
                     },
                 }
             },

@@ -549,14 +549,19 @@ export const getAggregatedGraph = new ValidatedMethod({
             _.each(events, (event) => {
                 
                 let label = event.name;
-                if (event.data.customData !== undefined) {
+                if (event.data.customData !== undefined && event.data.customData[0]["value"].type !== undefined) {
                     var customData = event.data.customData[0]["value"]
                     label = customData.type;
                 }
                 
+                let message = "";
+                if (event.data.customData !== undefined && event.data.customData[0]["value"].activity !== undefined) {
+                    message = " - " + event.data.customData[0]["value"].activity;
+                }
+
                 let node = {
                     data: {
-                        label: label,
+                        label: label + message,
                         id: event.id,
                         event: event,
                         customData: event.data.customData,
@@ -627,12 +632,12 @@ export const getAggregatedGraph = new ValidatedMethod({
                 }
                 else if (isTestEvent(node.data.type)) {
                     console.log("isTestEvent - IF");
-                    let valueCount = _.countBy(events, (event) => event.data.outcome ? event.data.outcome.verdict : undefined);
-                    let passedCount = valueCount.hasOwnProperty('PASSED') ? valueCount['PASSED'] : 0;
-                    let failedCount = valueCount.hasOwnProperty('FAILED') ? valueCount['FAILED'] : 0;
-                    node.data.inconclusive = valueCount.hasOwnProperty('INCONCLUSIVE') ? valueCount['INCONCLUSIVE'] : 0;
-                    node.data.passed = passedCount;
-                    node.data.failed = failedCount;
+                    //let valueCount = _.countBy(events, (event) => event.data.outcome ? event.data.outcome.verdict : undefined);
+                    //let passedCount = valueCount.hasOwnProperty('PASSED') ? valueCount['PASSED'] : 0;
+                    //let failedCount = valueCount.hasOwnProperty('FAILED') ? valueCount['FAILED'] : 0;
+                    //node.data.inconclusive = valueCount.hasOwnProperty('INCONCLUSIVE') ? valueCount['INCONCLUSIVE'] : 0;
+                    node.data.passed = event.data.outcome.verdict === 'PASSED' ? 1 : 0; //passedCount;
+                    node.data.failed = event.data.outcome.verdict === 'FAILED' ? 1 : 0; // failedCount;
 
                     // Need change here - Add avg queue time
                     let totalQueueTime = _.reduce(events, (memo, event) => {
@@ -660,7 +665,7 @@ export const getAggregatedGraph = new ValidatedMethod({
                 _.each(event.targets.concat(event.dangerousTargets), (targetId, targetIndex) => {
                     let target = eventToGroup[targetId];
                     let linkType = "";
-                    if (event.data.customData !== undefined) {
+                    if (event.data.customData !== undefined && event.data.customData[0]["value"].linkType !== undefined) {
                         linkType = event.data.customData[0]["value"].linkType[targetIndex];
                     }
                     if (source !== undefined && target !== undefined && linkType !== undefined) {

@@ -10,24 +10,12 @@ export class LinkFinder {
     this.client = new MongoClient(uri);
   }
 
-  findLink () {
-    // for trello events
-    //   use description to find the event
-
-    //   for move card event
-    //     use the custom data
-    //       find the create card event with same id
-    //         return id of create card event together with a strong link
-
-    // get latest event and return id
-
-    this.run().catch(console.error);
-
-
-    return '';
+  async findLink (trelloId) {
+    let result = await this.run(trelloId);
+    return result;
   }
 
-  async run() {
+  async run(trelloId) {
     try {
       // Connect the client to the server.
       await this.client.connect();
@@ -35,18 +23,37 @@ export class LinkFinder {
       // Get the collection you want to query.
       const collection = this.client.db("eventDB").collection("EiffelArtifactCreatedEvent");
 
-      // Find all documents in the collection.
-      const cursor = collection.find({});
+      // Find the document with the specified trelloId and type.
+      const query = {
+        "data.customData": {
+          $elemMatch: {
+            key: "trelloActivity",
+            "value.id": trelloId,
+            "value.type": 'createCard'
+          }
+        }
+      };
 
-      // Iterate through the documents and print them.
-      console.log("Documents in EiffelArtifactCreatedEvent:");
-      for await (const doc of cursor) {
-        console.log(doc);
+      const cursor = await collection.findOne(query);
+
+      if (!cursor) {
+        console.log("No connection found.");
+        return {};
       }
+
+      // Decide the strength of the link based on the type.
+      const linkStrength = 'strong'
+
+      const result = {
+        id: cursor.meta.id,
+        linkStrength: linkStrength
+      };
+
+      console.log("Result:", result);
+      return result;
     } finally {
       // Close the connection to the MongoDB server.
       await this.client.close();
     }
   }
-
 }

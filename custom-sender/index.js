@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
-import { EventCreator } from './utils/EventCreator.js';
+//import { EventCreator } from './utils/EventCreator.js';
 import { EventSender } from './utils/EventSender.js';
 
 
@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 const PORT = 3005;
 
 
-const eventCreator = new EventCreator();
+//const eventCreator = new EventCreator();
 const eventSender = new EventSender("http://16.170.107.18:9000");
 
 // Trello event handling
