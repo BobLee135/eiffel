@@ -6,6 +6,7 @@ export class EiffelEventTypes {
 
   extractLinks(links, linkType) {
     let linkList = [];
+    if (links === undefined || links.length === 0) return linkList;
     for (let i = 0; i < links.length; i++) {
       linkList.push({type: linkType, target: links[i]});
     }
