@@ -27,6 +27,8 @@ app.post("/webhook", async (req,res) => {
   var card = data.card
   var actionType = body.action.type
 
+  console.log(JSON.stringify(body));
+
   var eventDataObj;
   var connection;
   switch (actionType) {
@@ -51,7 +53,7 @@ app.post("/webhook", async (req,res) => {
             card.idShort,
             "Integration error at index.js",
             actionType,
-            "Trello card moved",
+            "moved to " + data.listAfter.name + " list",
             connection !== undefined ? [connection.id] : [],
             connection !== undefined ? 'CAUSE': '',
             connection !== undefined ? [connection.linkStrength] : []
