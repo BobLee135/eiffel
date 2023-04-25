@@ -23,9 +23,9 @@ const linkFinder = new LinkFinder();
 // Trello event handling
 app.post("/webhook", async (req,res) => {
   var body = req.body
-  var data = body.action.data
+  var data = body.actions[0].data
   var card = data.card
-  var actionType = card.actions[0].type
+  var actionType = data.type
 
   var eventDataObj;
   var connection;
