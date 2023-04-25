@@ -53,7 +53,7 @@ app.post("/webhook", async (req,res) => {
             card.idShort,
             "Integration error at index.js",
             actionType,
-            "moved to " + data.listAfter.name + " list",
+            data.listAfter !== undefined ? "moved to " + data.listAfter.name + " list" : "archived",
             connection !== undefined ? [connection.id] : [],
             connection !== undefined ? 'CAUSE': '',
             connection !== undefined ? [connection.linkStrength] : []
