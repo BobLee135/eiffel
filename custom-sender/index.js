@@ -29,6 +29,9 @@ app.post("/webhook", async (req,res) => {
 
   var eventDataObj;
   var connection;
+  console.log("body: " + body);
+  console.log("data: " + data);
+  console.log("card: " + card);
   console.log("action type: " + actionType);
   switch (actionType) {
       // CARD ACTIONS
