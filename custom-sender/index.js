@@ -33,12 +33,14 @@ app.post("/webhook", async (req,res) => {
       // CARD ACTIONS
       case "createCard":
           console.log("Created " + card.name + " that has id " + card.idShort);
-          connection = await linkFinder.findLink(card.idShort)
           eventDataObj = eiffelEventTypes.CustomTrelloEvent(
             card.idShort,
             "Integration error at index.js",
             actionType,
-            "Trello card created"
+            "Trello card created",
+            [],
+            '',
+            []
           );
           eventSender.submitEvent(eventDataObj);
           break;
@@ -51,7 +53,7 @@ app.post("/webhook", async (req,res) => {
             actionType,
             "Trello card moved",
             connection !== undefined ? [connection.id] : [],
-            'CAUSE',
+            connection !== undefined ? 'CAUSE': '',
             connection !== undefined ? [connection.linkStrength] : []
           );
           eventSender.submitEvent(eventDataObj);
@@ -65,7 +67,7 @@ app.post("/webhook", async (req,res) => {
             actionType,
             "Trello card deleted",
             connection !== undefined ? [connection.id] : [],
-            'CAUSE',
+            connection !== undefined ? 'CAUSE': '',
             connection !== undefined ? [connection.linkStrength] : []
           );
           eventSender.submitEvent(eventDataObj);
