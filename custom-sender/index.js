@@ -24,7 +24,7 @@ const linkFinder = new LinkFinder();
 app.post("/webhook", async (req,res) => {
   var body = req.body
   console.log(JSON.stringify(body));
-  var data = body.actions[0].data
+  var data = body.action.data
   var card = data.card
   var actionType = data.type
 
