@@ -91,6 +91,17 @@ const issue_closed = eiffelEventTypes.CustomTrelloEvent(
   ['weak', 'strong']
 );
 
+const issue_deleted = eiffelEventTypes.CustomTrelloEvent(
+  11,
+  "Integration solved",
+  "deleteCard",
+  "removed",
+  [issue_opened.meta.id],
+  'CAUSE',
+  ['strong']
+);
+
+
 
 events.push(dev_makes_branch);
 //events.push(art);
@@ -114,6 +125,7 @@ events.push(test_done_4);
 events.push(dev_merge_branch);
 
 events.push(issue_closed);
+events.push(issue_deleted);
 
 
 function delay(time) {
