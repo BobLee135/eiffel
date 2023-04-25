@@ -25,14 +25,10 @@ app.post("/webhook", async (req,res) => {
   var body = req.body
   var data = body.action.data
   var card = data.card
-  var actionType = data.type
+  var actionType = body.action.type
 
   var eventDataObj;
   var connection;
-  console.log("body: " + JSON.stringify(body));
-  console.log("data: " + JSON.stringify(data));
-  console.log("card: " + JSON.stringify(card));
-  console.log("action type: " + JSON.stringify(actionType));
   switch (actionType) {
       // CARD ACTIONS
       case "createCard":
