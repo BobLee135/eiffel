@@ -161,7 +161,7 @@ export const populateEventSequences = new ValidatedMethod({
                         let exists = _.find(eventMap[target].targetedBy, function (id) {
                             return id === event.id;
                         });
-                        if (!exists) {
+                        if (!exists && eventMap[target].targetBy !== undefined) {
                             (eventMap[target].targetedBy).push(event.id)
                         }
                     }

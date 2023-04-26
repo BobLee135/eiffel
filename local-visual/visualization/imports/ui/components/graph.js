@@ -218,15 +218,15 @@ function renderGraph(graph, container, level) {
                     'height': '70x',
                     'pie-size': '100%',
                     'pie-1-background-size': function (ele) {
-                        return (ele.data("passed") * 100 / ele.data("length") ).toString() + '%';
+                        return ((ele.data("passed") / (ele.data("passed") + ele.data("failed"))) * 100 ).toString() + '%';
                     },
                     'pie-1-background-color': PASS_COLOR,
                     'pie-2-background-size': function (ele) {
-                        return (ele.data("failed") * 100 / ele.data("length") ).toString() + '%';
+                        return ((ele.data("passed") / (ele.data("passed") + ele.data("failed"))) * 100 ).toString() + '%';
                     },
                     'pie-2-background-color': FAIL_COLOR,
                     'pie-3-background-size': function (ele) {
-                        return (ele.data("inconclusive") * 100 / ele.data("length") ).toString() + '%';
+                        return ((ele.data("inconclusive") / (ele.data("passed") + ele.data("failed"))) * 100 ).toString() + '%';
                     },
                     'pie-3-background-color': ELSE_COLOR
                 }
