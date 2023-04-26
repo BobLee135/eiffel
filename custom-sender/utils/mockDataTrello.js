@@ -60,17 +60,18 @@ const test_run_2 = eiffelEventTypes.EiffelTestCaseStartedEvent([test_case_2.meta
 const test_done_1 = eiffelEventTypes.EiffelTestCaseFinishedEvent([test_case_1.meta.id], 'TEST_CASE_EXECUTION', [''], 'FAILED');
 const test_done_2 = eiffelEventTypes.EiffelTestCaseFinishedEvent([test_case_2.meta.id], 'TEST_CASE_EXECUTION', [''], 'PASSED');
 
+const dev_makes_branch_2 = eiffelEventTypes.EiffelSourceChangeCreatedEvent([dev_makes_branch.meta.id], 'BASE', [''], 'new branch'); // maybe this should be connected to the first scc
+
 const issue_opened = eiffelEventTypes.CustomTrelloEvent(  
   11,
   "Integration error at index.js",
   "createCard",
   "Trello card created",
-  [dev_makes_branch.meta.id],
+  [dev_makes_branch_2.meta.id],
   'CAUSE',
   ['weak']
 );
 
-const dev_makes_branch_2 = eiffelEventTypes.EiffelSourceChangeCreatedEvent([dev_makes_branch.meta.id], 'BASE', [''], 'new branch'); // maybe this should be connected to the first scc
 //const art2 = eiffelEventTypes.EiffelArtifactCreatedEvent([dev_makes_branch_2.meta.id], 'CAUSE', "");
 const test_case_3 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([dev_makes_branch_2.meta.id], 'IUT', ['']);
 const test_case_4 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([dev_makes_branch_2.meta.id], 'IUT', ['']);
@@ -96,7 +97,7 @@ const issue_deleted = eiffelEventTypes.CustomTrelloEvent(
   "Integration solved",
   "deleteCard",
   "removed",
-  [issue_opened.meta.id],
+  [issue_closed.meta.id],
   'CAUSE',
   ['strong']
 );
@@ -136,17 +137,3 @@ for (let i = 0; i < events.length; i++) {
     eventSender.submitEvent(events[i]);
     await delay(250);
 }
-
-
-const connection = await linkFinder.findLink(11);
-console.log(connection.id);
-const test = eiffelEventTypes.CustomTrelloEvent(
-  11,
-  "Integration solved",
-  "updateCard",
-  "moved to done2",
-  [connection.id],
-  'CAUSE',
-  [connection.linkStrength]
-);
-eventSender.submitEvent(test);
