@@ -51,16 +51,16 @@ var events = [];
 
 
 
-const dev_makes_branch = eiffelEventTypes.EiffelSourceChangeCreatedEvent([], '', 'main branch'); // main?
+const dev_makes_branch = eiffelEventTypes.EiffelSourceChangeCreatedEvent([], '', [], 'main branch'); // main?
 //const art = eiffelEventTypes.EiffelArtifactCreatedEvent([dev_makes_branch.meta.id], 'CAUSE', "Code changes pushed to branch");
-const test_case_1 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([dev_makes_branch.meta.id], 'IUT');
-const test_case_2 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([dev_makes_branch.meta.id], 'IUT');
-const test_run_1 = eiffelEventTypes.EiffelTestCaseStartedEvent([test_case_1.meta.id], 'TEST_CASE_EXECUTION');
-const test_run_2 = eiffelEventTypes.EiffelTestCaseStartedEvent([test_case_2.meta.id], 'TEST_CASE_EXECUTION');
-const test_done_1 = eiffelEventTypes.EiffelTestCaseFinishedEvent([test_case_1.meta.id], 'TEST_CASE_EXECUTION', 'FAILED');
-const test_done_2 = eiffelEventTypes.EiffelTestCaseFinishedEvent([test_case_2.meta.id], 'TEST_CASE_EXECUTION', 'PASSED');
+const test_case_1 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([dev_makes_branch.meta.id], 'IUT', ['']);
+const test_case_2 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([dev_makes_branch.meta.id], 'IUT', ['']);
+const test_run_1 = eiffelEventTypes.EiffelTestCaseStartedEvent([test_case_1.meta.id], 'TEST_CASE_EXECUTION', ['']);
+const test_run_2 = eiffelEventTypes.EiffelTestCaseStartedEvent([test_case_2.meta.id], 'TEST_CASE_EXECUTION', ['']);
+const test_done_1 = eiffelEventTypes.EiffelTestCaseFinishedEvent([test_case_1.meta.id], 'TEST_CASE_EXECUTION', [''], 'FAILED');
+const test_done_2 = eiffelEventTypes.EiffelTestCaseFinishedEvent([test_case_2.meta.id], 'TEST_CASE_EXECUTION', [''], 'PASSED');
 
-const issue_opened = eiffelEventTypes.CustomTrelloEvent(
+const issue_opened = eiffelEventTypes.CustomTrelloEvent(  
   11,
   "Integration error at index.js",
   "createCard",
@@ -70,16 +70,16 @@ const issue_opened = eiffelEventTypes.CustomTrelloEvent(
   ['weak']
 );
 
-const dev_makes_branch_2 = eiffelEventTypes.EiffelSourceChangeCreatedEvent([dev_makes_branch.meta.id], 'BASE', 'new branch'); // maybe this should be connected to the first scc
+const dev_makes_branch_2 = eiffelEventTypes.EiffelSourceChangeCreatedEvent([dev_makes_branch.meta.id], 'BASE', [''], 'new branch'); // maybe this should be connected to the first scc
 //const art2 = eiffelEventTypes.EiffelArtifactCreatedEvent([dev_makes_branch_2.meta.id], 'CAUSE', "");
-const test_case_3 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([dev_makes_branch_2.meta.id], 'IUT');
-const test_case_4 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([dev_makes_branch_2.meta.id], 'IUT');
-const test_run_3 = eiffelEventTypes.EiffelTestCaseStartedEvent([test_case_3.meta.id], 'TEST_CASE_EXECUTION');
-const test_run_4 = eiffelEventTypes.EiffelTestCaseStartedEvent([test_case_4.meta.id], 'TEST_CASE_EXECUTION');
+const test_case_3 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([dev_makes_branch_2.meta.id], 'IUT', ['']);
+const test_case_4 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([dev_makes_branch_2.meta.id], 'IUT', ['']);
+const test_run_3 = eiffelEventTypes.EiffelTestCaseStartedEvent([test_case_3.meta.id], 'TEST_CASE_EXECUTION', ['']);
+const test_run_4 = eiffelEventTypes.EiffelTestCaseStartedEvent([test_case_4.meta.id], 'TEST_CASE_EXECUTION', ['']);
 
-const test_done_3 = eiffelEventTypes.EiffelTestCaseFinishedEvent([test_case_3.meta.id], 'TEST_CASE_EXECUTION', 'PASSED');
-const test_done_4 = eiffelEventTypes.EiffelTestCaseFinishedEvent([test_case_4.meta.id], 'TEST_CASE_EXECUTION', 'PASSED');
-const dev_merge_branch = eiffelEventTypes.EiffelSourceChangeSubmittedEvent([dev_makes_branch.meta.id, dev_makes_branch_2.meta.id], 'CAUSE', 'merge');
+const test_done_3 = eiffelEventTypes.EiffelTestCaseFinishedEvent([test_case_3.meta.id], 'TEST_CASE_EXECUTION', [''], 'PASSED');
+const test_done_4 = eiffelEventTypes.EiffelTestCaseFinishedEvent([test_case_4.meta.id], 'TEST_CASE_EXECUTION', [''], 'PASSED');
+const dev_merge_branch = eiffelEventTypes.EiffelSourceChangeSubmittedEvent([dev_makes_branch.meta.id, dev_makes_branch_2.meta.id], 'CAUSE', ['', ''], 'merge');
 
 const issue_closed = eiffelEventTypes.CustomTrelloEvent(
   11,

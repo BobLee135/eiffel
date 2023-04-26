@@ -664,16 +664,17 @@ export const getAggregatedGraph = new ValidatedMethod({
                 let source = event.id;
                 _.each(event.targets.concat(event.dangerousTargets), (targetId, targetIndex) => {
                     let target = eventToGroup[targetId];
-                    let linkType = "";
-                    if (event.data.customData !== undefined && event.data.customData[0]["value"].linkType !== undefined) {
-                        linkType = event.data.customData[0]["value"].linkType[targetIndex];
+                    let linkStrength = "";
+                    if (event.data.customData !== undefined && event.data.customData[0]["value"].linkStrengths !== undefined) {
+                        linkStrength = event.data.customData[0]["value"].linkStrengths[targetIndex];
                     }
-                    if (source !== undefined && target !== undefined && linkType !== undefined) {
+                    if (source !== undefined && target !== undefined) {
+                        console.log("EDGE: " + event.type + " - " + linkStrength);
                         edges.push({
                             data: {
                                 source: source,
                                 target: target,
-                                linkType: linkType,
+                                linkType: linkStrength,
                             }
                         })
                     } else if (source !== undefined && target !== undefined) {
@@ -686,9 +687,6 @@ export const getAggregatedGraph = new ValidatedMethod({
                     }
                 });
             });
-
-            console.log(edges);
-            console.log(nodes);
 
             return {nodes: nodes, edges: edges, sequences: sequencesIds, detectedEventWithDiffValue: filterData.detectedEventWithDiffValue, conflicts: filterData.conflicts};
         }

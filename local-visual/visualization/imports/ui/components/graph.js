@@ -23,7 +23,6 @@ const PASS_COLOR = '#22b14c';
 const FAIL_COLOR = '#af0020';
 const ELSE_COLOR = '#666';
 function renderGraph(graph, container, level) {
-    console.log("TEST GRAPH 1");
     let cy = cytoscape({
 
         container: container,
@@ -130,6 +129,20 @@ function renderGraph(graph, container, level) {
                 }
             },
             {
+                selector: 'node[label ^= "bugFound"]',
+                style: {
+                    'shape': 'polygon',
+                    'height': 60,
+                    'width': 60,
+                    'background-image': '/images/bug.png',
+                    'background-width': '100%',
+                    'background-height': '100%',
+                    'background-fit': 'cover',
+                    'border-opacity': 0,
+                }
+            },
+
+            {
                 selector: 'node[label ^= "Act"]', // All nodes with ID Activity
                 style: {
                     'shape': 'polygon',
@@ -141,7 +154,7 @@ function renderGraph(graph, container, level) {
                     'background-image': '/images/green.png',
                     'background-height': '100%',
                     'background-width': function (ele) {
-                        return (ele.data("successful") * 100 / ele.data("length") ).toString() + '%';
+                        return (ele.data("conclusion") === "SUCCESSFUL" ? 0 : 100).toString() + '%';
                     }
                 }
             },
@@ -359,7 +372,7 @@ function renderGraph(graph, container, level) {
                     '<tr><td>Aborted</td><td class="td-right">' + nodeData.aborted + '</td><td class="td-right">' + Math.round(10 * (nodeData.aborted / nodeData.length) / 10) + '%</td></tr>' +
                     '<tr><td>Timed out</td><td class="td-right">' + nodeData.timedOut + '</td><td class="td-right">' + Math.round(10 * (nodeData.timedOut / nodeData.length * 100) / 10) + '%</td></tr>' +
                     '<tr><td>Inconclusive</td><td class="td-right">' + nodeData.inconclusive + '</td><td class="td-right">' + Math.round(10 * (nodeData.inconclusive / nodeData.length) / 10) + '%</td></tr>' +
-                    '<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
+                    //'<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
                     '<tr class="info"><td>Avg queue time</td><td colspan="2" class="td-right">' + toHMS(nodeData.avgQueueTime) + '</td></tr>' +
                     '<tr class="info"><td>Avg run time</td><td colspan="2" class="td-right">' + toHMS(nodeData.avgRunTime) + '</td></tr>' +
                     '</table>';
@@ -374,7 +387,7 @@ function renderGraph(graph, container, level) {
                     '<tr><td>Blocker</td><td class="td-right">' + nodeData.blocker + '</td><td class="td-right">' + Math.round(10 * (nodeData.blocker / nodeData.length) / 10) + '%</td></tr>' +
                     '<tr><td>Closed</td><td class="td-right">' + nodeData.closed + '</td><td class="td-right">' + Math.round(10 * (nodeData.closed / nodeData.length * 100) / 10) + '%</td></tr>' +
                     '<tr><td>Canceled</td><td class="td-right">' + nodeData.canceled + '</td><td class="td-right">' + Math.round(10 * (nodeData.canceled / nodeData.length) / 10) + '%</td></tr>' +
-                    '<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
+                    //'<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
                     '</table>';
             case /CLM/.test(nodeLabel):
                 return '<h4>' + nodeLabel + '</h4>' +
@@ -385,7 +398,7 @@ function renderGraph(graph, container, level) {
                     '<tr class="success"><td>Passed</td><td class="td-right">' + nodeData.passed + '</td><td class="td-right">' + Math.round(10 * (nodeData.passed / nodeData.length * 100) / 10) + '%</td></tr>' +
                     '<tr class="danger"><td>Failed</td><td class="td-right">' + nodeData.failed + '</td><td class="td-right">' + Math.round(10 * (nodeData.failed / nodeData.length * 100) / 10) + '%</td></tr>' +
                     '<tr><td>Inconclusive</td><td class="td-right">' + nodeData.inconclusive + '</td><td class="td-right">' + Math.round(10 * (nodeData.inconclusive / nodeData.length) / 10) + '%</td></tr>' +
-                    '<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
+                    //'<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
                     '</table>';
             case /IV/.test(nodeLabel):
                 return '<h4>' + nodeLabel + '</h4>' +
@@ -401,7 +414,7 @@ function renderGraph(graph, container, level) {
                     '<tr><td>Work Item</td><td class="td-right">' + nodeData.workItem + '</td><td class="td-right">' + Math.round(10 * (nodeData.workItem / nodeData.length * 100) / 10) + '%</td></tr>' +
                     '<tr><td>Requirement</td><td class="td-right">' + nodeData.requirement + '</td><td class="td-right">' + Math.round(10 * (nodeData.requirement / nodeData.length * 100) / 10) + '%</td></tr>' +
                     '<tr><td>Other</td><td class="td-right">' + nodeData.other + '</td><td class="td-right">' + Math.round(10 * (nodeData.other / nodeData.length) / 10) + '%</td></tr>' +
-                    '<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
+                    //'<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
                     '</table>';
             case /TC/.test(nodeLabel):                                              // Checks if node_id starts with 'TSF'
                 return '<h4>' + nodeLabel + '</h4>' +           // Tooltip-header (Node-ID)
@@ -410,10 +423,10 @@ function renderGraph(graph, container, level) {
                     '<tr><th>Status</th><th colspan="2">No. of</th></tr>' +    // Table-header
                     '<tr class="success"><td>Passed</td><td class="td-right">' + nodeData.passed + '</td><td class="td-right">' + Math.round(10 * (nodeData.passed / nodeData.length * 100) / 10) + '%</td></tr>' +
                     '<tr class="danger"><td>Failed</td><td class="td-right">' + nodeData.failed + '</td><td class="td-right">' + Math.round(10 * (nodeData.failed / nodeData.length * 100) / 10) + '%</td></tr>' +
-                    '<tr><td>Inconclusive</td><td class="td-right">' + nodeData.inconclusive + '</td><td class="td-right">' + Math.round(10 * (nodeData.inconclusive / nodeData.length) / 10) + '%</td></tr>' +
-                    '<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
-                    '<tr class="info"><td>Avg queue time</td><td colspan="2" class="td-right">' + toHMS(nodeData.avgQueueTime) + '</td></tr>' +
-                    '<tr class="info"><td>Avg run time</td><td colspan="2" class="td-right">' + toHMS(nodeData.avgRunTime) + '</td></tr>' +
+                    //'<tr><td>Inconclusive</td><td class="td-right">' + nodeData.inconclusive + '</td><td class="td-right">' + Math.round(10 * (nodeData.inconclusive / nodeData.length) / 10) + '%</td></tr>' +
+                    //'<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
+                    //'<tr class="info"><td>Avg queue time</td><td colspan="2" class="td-right">' + toHMS(nodeData.avgQueueTime) + '</td></tr>' +
+                    //'<tr class="info"><td>Avg run time</td><td colspan="2" class="td-right">' + toHMS(nodeData.avgRunTime) + '</td></tr>' +
                     '</table>'; // Row 3 - OTHER
             case /TS/.test(nodeLabel):                                              // Checks if node_id starts with 'TSF'
                 return '<h4>' + nodeLabel + '</h4>' +           // Tooltip-header (Node-ID)
@@ -423,7 +436,7 @@ function renderGraph(graph, container, level) {
                     '<tr class="success"><td>Passed</td><td class="td-right">' + nodeData.passed + '</td><td class="td-right">' + Math.round(10 * (nodeData.passed / nodeData.length * 100) / 10) + '%</td></tr>' +
                     '<tr class="danger"><td>Failed</td><td class="td-right">' + nodeData.failed + '</td><td class="td-right">' + Math.round(10 * (nodeData.failed / nodeData.length * 100) / 10) + '%</td></tr>' +
                     '<tr><td>Inconclusive</td><td class="td-right">' + nodeData.inconclusive + '</td><td class="td-right">' + Math.round(10 * (nodeData.inconclusive / nodeData.length) / 10) + '%</td></tr>' +
-                    '<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
+                    //'<tr><td>Total no. of events</td><td colspan="2" class="td-right">' + nodeData.length + '</td></tr>' +
                     '<tr class="info"><td>Avg run time</td><td colspan="2" class="td-right">' + toHMS(nodeData.avgRunTime) + '</td></tr>' +
                     '</table>'; // Row 3 - OTHER
             default:
@@ -431,8 +444,10 @@ function renderGraph(graph, container, level) {
                 return '<h4 id="tt_header">' + nodeLabel + '</h4>' +
                     getTooltipButton(nodeData) +
                     '<table class="table table-bordered">' +
-                    '<tr><td>Total no. of events</td><td class="td-right">' + nodeData.length + '</td></tr>' +
-                    '<tr><td>Custom data</td><td colspan="2" class="td-right">' + nodeData.customData[0]["value"].message + '</td></tr>' +
+                    //'<tr><td>Total no. of events</td><td class="td-right">' + nodeData.length + '</td></tr>' +
+                    //'<tr><td>Custom data</td><td colspan="2" class="td-right">' + nodeData.customData[0]["value"].message + '</td></tr>' +
+                    '<tr><td>Time of event: ' + 
+                        new Date(nodeData.customData[0]["value"].time).toLocaleString() + '</td></tr>' +
                     '</table>';
 
         }
