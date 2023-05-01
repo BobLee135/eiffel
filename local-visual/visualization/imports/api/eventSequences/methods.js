@@ -148,7 +148,7 @@ export const populateEventSequences = new ValidatedMethod({
 
         // Find targetedBy
         _.each(events, (event) => {
-            console.log(event);
+            //console.log(event);
             if (event.type !== getRedirectName()) {
                 //console.log("The event type is: " + event.type + " and the ID is: " + event.id)
                 //console.log("The Eventmap is: " + JSON.stringify(eventMap))
@@ -495,7 +495,7 @@ export const getAggregatedGraph = new ValidatedMethod({
                 query,
                 {sort: {"time.finished": -1}, limit: limit})
                 .fetch();
-
+            
             console.log("eventSequences pipeline", JSON.stringify([
                 { $match: query },
                 { $sort: { "time.finished": -1 } },

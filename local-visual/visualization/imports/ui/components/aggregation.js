@@ -280,7 +280,7 @@ function showAggregation(from, to, limit, filter) {
         aggregationQueued = undefined;
     }
     aggregationLock = true;
-    console.log("showAggregation data", {from: from, to: to, limit: limit, filter: filter});
+    //console.log("showAggregation data", {from: from, to: to, limit: limit, filter: filter});
     show(2);
     $('html, body').animate({
         scrollTop: $("#aggregation").offset().top - 10
@@ -290,7 +290,7 @@ function showAggregation(from, to, limit, filter) {
             console.log(error);
         } else {
             showSelects(graph.nodes);
-            console.log("Graph data", graph);
+            //console.log("Graph data", graph);
 
             // If the "EventWithDiffValue" warn is issued we handle it here by either
             // add the warning or remove it fro the page.
@@ -430,7 +430,7 @@ function showSelects(data) {
 
     // New nodes.
     currentNodes = sorted;
-    console.log("New Select Nodes", sorted);
+    //console.log("New Select Nodes", sorted);
 
     // Setup the first select.
     let options = [{value: "", text: "Choose..."}];

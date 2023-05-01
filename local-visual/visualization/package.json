@@ -8,17 +8,22 @@
     "@babel/runtime": "^7.21.0",
     "amqp": "^0.2.7",
     "babel-runtime": "^6.26.0",
-    "cytoscape": "^2.7.29",
+    "cytoscape": "^3.24.0",
+    "cytoscape-cola": "^2.5.1",
     "cytoscape-dagre": "^1.6.0",
+    "cytoscape-elk": "^2.1.0",
+    "cytoscape-klay": "^3.1.4",
     "cytoscape-panzoom": "^2.5.3",
     "cytoscape-qtip": "^2.7.1",
     "datatables.net": "^1.10.13",
     "datatables.net-bs": "^1.10.19",
+    "elkjs": "^0.8.2",
     "jquery": "^3.4.1",
     "meteor-node-stubs": "^0.2.11",
     "moment": "^2.24.0",
     "npm": "*",
-    "vis": "^4.21.0"
+    "vis": "^4.21.0",
+    "web-worker": "^1.2.0"
   },
   "meteor": {
     "mainModule": {

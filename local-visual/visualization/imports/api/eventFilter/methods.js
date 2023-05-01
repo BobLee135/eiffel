@@ -189,7 +189,7 @@ export const populateEventFilter = new ValidatedMethod({
     name: 'populateEventFilter',
     validate: null,
     run() {
-        console.log("Removing old event filters.");
+        //console.log("Removing old event filters.");
         EventFilter.remove({});
 
         let total = EventSequences.find().count();

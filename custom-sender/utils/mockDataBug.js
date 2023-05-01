@@ -17,7 +17,19 @@ var mockTime = new AddTimeToTimestamp();
 const dev_makes_branch = eiffelEventTypes.EiffelSourceChangeCreatedEvent([], '', [], 'main branch', baseTime); // main?
 
 // Bug found and issue created in JIRA
-const bug = eiffelEventTypes.CustomBugEvent(127, "bug", "bug found", [dev_makes_branch.meta.id], 'CAUSE', ['weak'], baseTime);
+const bug = eiffelEventTypes.CustomBugEvent(127, "bug", "Bug ticket #321 created", [dev_makes_branch.meta.id], 'CAUSE', ['weak'], baseTime);
+
+
+const bug_fixing_task_created = eiffelEventTypes.CustomTrelloEvent(
+  11,
+  "Dev assigned to task",
+  "createCard",
+  "Task for bug #321 created",
+  [bug.meta.id],
+  'CAUSE',
+  ['strong'],
+  mockTime.addTime(baseTime, 0.25).getTime()
+);
 
 // Dev gets assigned to fix bug
 const bug_fixing_task = eiffelEventTypes.CustomTrelloEvent(
@@ -25,21 +37,22 @@ const bug_fixing_task = eiffelEventTypes.CustomTrelloEvent(
   "Dev assigned to task",
   "updateCard",
   "John Doe assigned to task",
-  [bug.meta.id],
+  [bug_fixing_task_created.meta.id],
   'CAUSE',
-  ['weak'],
+  ['strong'],
   mockTime.addTime(baseTime, 0.25).getTime()
 );
 
 // Dev creates bug branch
-const new_branch = eiffelEventTypes.EiffelSourceChangeCreatedEvent([dev_makes_branch.meta.id, bug.meta.id], 'BASE', ['strong', 'strong'], 'new branch', mockTime.addTime(baseTime, 0.5).getTime());
+const new_branch = eiffelEventTypes.EiffelSourceChangeCreatedEvent([dev_makes_branch.meta.id, bug.meta.id], 'BASE', ['weak', 'strong'], 'BUG-321-fix', mockTime.addTime(baseTime, 0.5).getTime());
 
 // Dev debugs faulty source code 
 
 // Dev runs external tests
 
+
 // Dev pushes new commit
-const new_push = eiffelEventTypes.EiffelArtifactCreatedEvent([new_branch.meta.id], 'CAUSE', ['strong'], "Bug fix pushed", mockTime.addTime(baseTime, 4).getTime());
+const new_push = eiffelEventTypes.EiffelArtifactCreatedEvent([new_branch.meta.id], 'CAUSE', ['strong'], "#321 Bug fix pushed", mockTime.addTime(baseTime, 4).getTime());
 
 // CI tests run and pass
 const test_case_1 = eiffelEventTypes.EiffelTestCaseTriggeredEvent([new_push.meta.id], 'IUT', [''], '', mockTime.addTime(baseTime, 4).getTime());
@@ -73,6 +86,7 @@ const task_finished = eiffelEventTypes.CustomTrelloEvent(
 
 events.push(dev_makes_branch);
 events.push(bug);
+events.push(bug_fixing_task_created);
 events.push(bug_fixing_task);
 events.push(new_branch);
 events.push(new_push);

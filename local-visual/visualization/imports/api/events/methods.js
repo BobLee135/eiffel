@@ -60,7 +60,7 @@ export const populateEventsCollection = new ValidatedMethod({
     name: 'populateEventsCollection',
     validate: null,
     run() {
-        console.log("Removing old events collection.");
+        //console.log("Removing old events collection.");
         invalidateEventVersionProperty();
         Events.remove({});
 
@@ -68,7 +68,7 @@ export const populateEventsCollection = new ValidatedMethod({
         let done = 0;
         let lastPrint = ((done / total) * 100);
 
-        console.log('Fetching ' + total + ' eiffel events from database. Please wait.' )
+        //console.log('Fetching ' + total + ' eiffel events from database. Please wait.' )
         let events = EiffelEvents.find().fetch();
         let toBePared = {};
 

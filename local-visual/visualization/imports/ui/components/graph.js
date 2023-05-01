@@ -1,12 +1,18 @@
 'use strict';
 import cytoscape from "cytoscape";
 import cydagre from "cytoscape-dagre";
+import klay from 'cytoscape-klay';
+import cola from 'cytoscape-cola';
+import elk from 'cytoscape-elk';
 
 import "cytoscape-panzoom/cytoscape.js-panzoom.css";
 import panzoom from "cytoscape-panzoom";
 import cyqtip from "cytoscape-qtip";
 
+//cytoscape.use(klay);
 cydagre(cytoscape); // register extension
+//cytoscape.use(cola);
+//cytoscape.use(elk);
 panzoom(cytoscape, $); // register extension
 cyqtip(cytoscape); // register extension
 
@@ -547,7 +553,6 @@ function renderGraph(graph, container, level) {
                     + '<tr><td>Version</td><td class="td-right">' + nodeData.version + '</td></tr>' + '</table>';
                 return html;
             case /EDef/.test(nodeLabel):
-                console.log(nodeData);
                 return '<h4 id="tt_header">' + nodeLabel + '</h4>' +
                     '<table class="table table-bordered">' +
                     '<tr><td>Name</td><td class="td-right">' + nodeData.name + '</td></tr>' +
